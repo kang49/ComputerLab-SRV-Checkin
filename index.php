@@ -13,6 +13,7 @@
     
     // Initialize default variables for response
     $status = "failure";
+    $formIdnumber = "";
     $name = "";
     $lastName = "";
     $class = "";
@@ -23,32 +24,49 @@
         // Check for a match with the ID number
         if ($stdsdata[$i]['ID Number'] == $idNumber) {
             //Get Students Data from Students_data.json
-            $status = "success";
+            $formIdnumber = $stdsdata[$i]['ID Number'];
             $name = $stdsdata[$i]["Name"];
             $lastName = $stdsdata[$i]["LastName"];
             $class = $stdsdata[$i]["Class"];
             $private_no = $stdsdata[$i]["PrivateNo."];
-
-            //Register in form
-            $registData = array(
-                "No." => count($formData) + 1,
-                "Date" => date('Y-m-d'),
-                "Name" => $name,
-                "Lastname" => $lastName,
-                "Class" => $class,
-                "In" => null,
-                "Out" => null,
-                "Note" => $note
-              );
-              $formData[] = $registData;
-              
-        //       //Sort the data based on the "No." field
-        //     //   usort($formData, function($a, $b) {
-        //     //       return $a['No.'] <=> $b['No.'];
-        //     //   });
             break;
         }
     }
+
+    //Check id number in form
+    $idInForm = false;
+    for ($no = 0; $no < count($formData); $no++) {
+        if ($formData[$no]['ID Number'] == $idNumber) {
+            $idInForm = true;
+            //Out register in form
+            $formData[$no]['Out'] = date('H:i:s');
+            $status = "success";
+            break;
+        }
+    }
+
+    if (!$idInForm) {
+        //Register in form
+        $registData = array(
+            "No." => count($formData) + 1,
+            "Date" => date('d-m-Y'),
+            "Name" => $name,
+            "ID Number" => $formIdnumber,
+            "Lastname" => $lastName,
+            "Class" => $class,
+            "In" => date('H:i:s'),
+            "Out" => null,
+            "Note" => $note
+        );
+        $formData[] = $registData;
+        $status = "success";
+    }
+
+    
+    //Sort the data based on the "No." field
+    usort($formData, function($a, $b) {
+        return $a['No.'] <=> $b['No.'];
+    });
     
     // Convert the updated array back into a JSON string
     $jsonForm = json_encode($formData);

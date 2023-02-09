@@ -114,14 +114,14 @@
                     var response = JSON.parse(xhttp.responseText);
                     console.log('TestHTML')
                     console.log(response.status)
-                    // if (response.status == "success") {
-                    //     document.getElementById("idNumber").value = "";
-                    //     document.getElementById("note").value = "";
-                    //     document.getElementById("message").innerHTML = "เช็คชื่อเรียบร้อย, " + response.name;
-                    //     document.getElementById("img-main").src = "cute-anime.gif"
-                    // } else {
-                    //     document.getElementById("message").innerHTML = "ไม่เลขประจำตัวก็รหัสแอดมินไม่ตรง ลองไปเช็คใหม่อีกทีดิ";
-                    // }
+                    if (response.status == "success") {
+                        document.getElementById("idNumber").value = "";
+                        document.getElementById("note").value = "";
+                        document.getElementById("message").innerHTML = "ลงทะเบียนสำเร็จ, " + response.name;
+                        document.getElementById("img-main").src = "cute-anime.gif"
+                    } else {
+                        document.getElementById("message").innerHTML = "รหัสประจำตัวนักเรียนไม่ถูกต้อง";
+                    }
                 } catch (e) {
                     document.getElementById("message").innerHTML = "Server มีปัญหา";
                 }
