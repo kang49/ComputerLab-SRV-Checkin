@@ -2,6 +2,7 @@
     // Get the ID number and on_check value sent by the user
     $idNumber = $_POST['idNumber'];
     $note = $_POST['note'];
+    $room = $_POST['room'];
     
     // Read the JSON file
     $jsonForm = file_get_contents('form.json');
@@ -13,6 +14,7 @@
     
     // Initialize default variables for response
     $status = "failure";
+    $found = false;
     $formIdnumber = "";
     $name = "";
     $lastName = "";
@@ -23,6 +25,7 @@
     for ($i = 0; $i < count($stdsdata); $i++) {
         // Check for a match with the ID number
         if ($stdsdata[$i]['ID Number'] == $idNumber) {
+            $found = true;
             //Get Students Data from Students_data.json
             $formIdnumber = $stdsdata[$i]['ID Number'];
             $name = $stdsdata[$i]["Name"];
@@ -32,14 +35,20 @@
             break;
         }
     }
-
+    if ($found == false) {
+        // Return a response to the JavaScript
+        $status = "failure";
+        echo json_encode(array("status" => $status));
+        exit;
+    }
     //Check id number in form
     $idInForm = false;
     for ($no = 0; $no < count($formData); $no++) {
-        if ($formData[$no]['ID Number'] == $idNumber) {
+        if ($formData[$no]['ID Number'] == $idNumber && $formData[$no]['Out'] == null) {
             $idInForm = true;
             //Out register in form
             $formData[$no]['Out'] = date('H:i:s');
+            $formData[$no]['Note'] = $note;
             $status = "success";
             break;
         }
@@ -56,6 +65,7 @@
             "Class" => $class,
             "In" => date('H:i:s'),
             "Out" => null,
+            "Lab Room" => $room,
             "Note" => $note
         );
         $formData[] = $registData;

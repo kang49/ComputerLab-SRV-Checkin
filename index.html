@@ -77,6 +77,8 @@
             <label for="idNumber">เลขประจำตัวนักเรียน:</label>
             <input type="text" id="idNumber" name="idNumber" placeholder="รหัสนักเรียน 5หลัก">
             <br>
+            <label for="room">ห้อง:</label>
+            <input id="room" name="room" placeholder="หมายเลขห้องปฏิบัติการ">
             <label for="note">หมายเหตุ:</label>
             <input id="note" name="note" placeholder="ไม่จำเป็น">
             <br>
@@ -100,12 +102,13 @@
         // Get the input values
         var idNumber = document.getElementById("idNumber").value;
         var note = document.getElementById("note").value;
+        var room = document.getElementById("room").value;
         var xhttp = new XMLHttpRequest();
 
         // Send the ID number and note number to the PHP script
         xhttp.open("POST", "index.php", true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp.send("idNumber=" + idNumber + "&note=" + note);
+        xhttp.send("idNumber=" + idNumber + "&note=" + note + "&room=" + room);
 
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
