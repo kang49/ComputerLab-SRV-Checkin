@@ -64,16 +64,41 @@
     $idInForm = false;
     for ($no = 0; $no < count($formData); $no++) {
         if ($formData[$no]['ID Number'] == $idNumber && $formData[$no]['Out'] == null) {
-            $idInForm = true;
-            //Out register in form
-            $formData[$no]['Out'] = date('H:i:s');
-            $formData[$no]['Note'] = $note;
-            $status = "success";
-            $noti = "ลงชื่อออกสำเร็จ";
-            break;
+            //Long time check
+
+            //Get Date
+            $currentDate = date('d-m-Y');
+            $inDate = $formData[$no]['Date'];
+            
+            $currentDateArray = explode("-", $currentDate);
+            $inDateArray = explode("-", $inDate);
+            
+            $day = $currentDateArray[0] - $inDateArray[0];
+            $month = $currentDateArray[1] - $inDateArray[1];
+            $year = $currentDateArray[2] - $inDateArray[2];
+
+            //Get Time
+            $currentTime = date('H:i:s');
+            $inTime = $formData[$no]['In'];
+
+            $currentTimeArray = explode(":", $currentTime);
+            $inTimeArray = explode(":", $inTime);
+
+            $hour = $currentTimeArray[0] - $inTimeArray[0];
+
+            // if this have checked-in and don't long time
+            if ($hour < 6 && $day == 0 && $month == 0 && $year == 0) {
+                $idInForm = true;
+                $formData[$no]['Out'] = date('H:i:s');
+                $formData[$no]['Note'] = $note;
+                $status = "success";
+                $noti = "ลงชื่อออกสำเร็จ";
+                break;
+            }
         }
     }
 
+    //if never have name in form or long time
     if (!$idInForm) {
         //Register in form
         $registData = array(
@@ -108,5 +133,4 @@
     
     // Return a response to the JavaScript
     echo json_encode(array("status" => $status, "name" => $name, "noti" => $noti));
-    exec('python converter.py');
 ?>
