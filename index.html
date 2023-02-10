@@ -76,13 +76,12 @@
         <form id="form" action="index.php" method="post">
             <label for="idNumber">เลขประจำตัวนักเรียน:</label>
             <input type="text" id="idNumber" name="idNumber" placeholder="รหัสนักเรียน 5หลัก">
-            <br>
             <label for="room">ห้อง:</label>
             <input id="room" name="room" placeholder="หมายเลขห้องปฏิบัติการ">
             <label for="note">หมายเหตุ:</label>
             <input id="note" name="note" placeholder="ไม่จำเป็น">
             <br>
-            <button type="submit" onclick="submitFunc(event)">ลงชื่อ</button>
+            <button type="submit" onclick="submitFunc(event)">ลงชื่อเข้า-ออก</button>
             <p id="message"></p>
         </form>
     </div>
@@ -118,15 +117,20 @@
                     console.log('TestHTML')
                     console.log(response.status)
                     if (response.status == "success") {
-                        document.getElementById("idNumber").value = "";
-                        document.getElementById("note").value = "";
-                        document.getElementById("message").innerHTML = "ลงทะเบียนสำเร็จ, " + response.name;
-                        document.getElementById("img-main").src = "cute-anime.gif"
-                    } else {
+                    document.getElementById("idNumber").value = "";
+                    document.getElementById("note").value = "";
+                    document.getElementById("message").innerHTML = response.noti + " " + response.name;
+                    document.getElementById("img-main").src = "cute-anime.gif"
+
+                    setTimeout(function(){
+                        document.getElementById("message").innerHTML = "";
+                    }, 5000);
+                }
+                else {
                         document.getElementById("message").innerHTML = "รหัสประจำตัวนักเรียนไม่ถูกต้อง";
                     }
                 } catch (e) {
-                    document.getElementById("message").innerHTML = "Server มีปัญหา";
+                    document.getElementById("message").innerHTML = "Backend not response, Call Admin";
                 }
             }
         };

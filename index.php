@@ -16,10 +16,12 @@
     $status = "failure";
     $found = false;
     $formIdnumber = "";
+    $gender = "";
     $name = "";
     $lastName = "";
     $class = "";
     $private_no = "";
+    $noti = "";
     
     // Loop through the array to find student data in Students_data.json
     for ($i = 0; $i < count($stdsdata); $i++) {
@@ -35,12 +37,39 @@
             break;
         }
     }
+    
+    //Get Gender
+    if (strpos($name, 'เด็กชาย') !== false) {
+        $gender = 'ชาย';
+    }
+    if (strpos($name, 'นาย') !== false) {
+        $gender = 'ชาย';
+    }
+    if (strpos($name, 'เด็กหญิง') !== false) {
+        $gender = 'หญิง';
+    }
+    if (strpos($name, 'นางสาว') !== false) {
+        $gender = 'หญิง';
+    }
+    if (strpos($name, 'นาง') !== false) {
+        $gender = 'หญิง';
+    }
+
+    //rulse
     if ($found == false) {
         // Return a response to the JavaScript
         $status = "failure";
         echo json_encode(array("status" => $status));
         exit;
     }
+    if ($room != "123" && $room != "125" && $room != "126" && $room != "116") {
+        // Return a response to the JavaScript
+        $status = "success";
+        $noti = "ไม่พบเลขห้องปฏิบัติการ ลองใหม่อีกครั้งคุณ";
+        echo json_encode(array("status" => $status, "noti" => $noti, "name" => $name));
+        exit;
+    }
+
     //Check id number in form
     $idInForm = false;
     for ($no = 0; $no < count($formData); $no++) {
@@ -50,6 +79,7 @@
             $formData[$no]['Out'] = date('H:i:s');
             $formData[$no]['Note'] = $note;
             $status = "success";
+            $noti = "ลงชื่อออกสำเร็จ";
             break;
         }
     }
@@ -59,6 +89,7 @@
         $registData = array(
             "No." => count($formData) + 1,
             "Date" => date('d-m-Y'),
+            "Gender" => $gender,
             "Name" => $name,
             "ID Number" => $formIdnumber,
             "Lastname" => $lastName,
@@ -70,6 +101,7 @@
         );
         $formData[] = $registData;
         $status = "success";
+        $noti = "ลงชื่อเข้าสำเร็จ";
     }
 
     
@@ -78,13 +110,13 @@
         return $a['No.'] <=> $b['No.'];
     });
     
-    // Convert the updated array back into a JSON string
-    $jsonForm = json_encode($formData);
-    
+    // Convert the updated array back into a JSON string with UTF-8 encoding
+    $jsonForm = json_encode($formData, JSON_UNESCAPED_UNICODE);
+
     // Save the updated JSON data to the file
     file_put_contents('form.json', $jsonForm);
     
     // Return a response to the JavaScript
-    echo json_encode(array("status" => $status, "name" => $name));
+    echo json_encode(array("status" => $status, "name" => $name, "noti" => $noti));
     exec('python converter.py');
 ?>
