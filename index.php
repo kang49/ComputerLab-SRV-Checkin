@@ -39,19 +39,9 @@
     }
     
     //Get Gender
-    if (strpos($name, 'เด็กชาย') !== false) {
+    if (strpos($name, 'เด็กชาย') !== false || strpos($name, 'นาย') !== false) {
         $gender = 'ชาย';
-    }
-    if (strpos($name, 'นาย') !== false) {
-        $gender = 'ชาย';
-    }
-    if (strpos($name, 'เด็กหญิง') !== false) {
-        $gender = 'หญิง';
-    }
-    if (strpos($name, 'นางสาว') !== false) {
-        $gender = 'หญิง';
-    }
-    if (strpos($name, 'นาง') !== false) {
+    } elseif (strpos($name, 'เด็กหญิง') !== false || strpos($name, 'นางสาว') !== false || strpos($name, 'นาง') !== false) {
         $gender = 'หญิง';
     }
 
