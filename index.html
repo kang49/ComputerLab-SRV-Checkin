@@ -9,7 +9,7 @@
     <style>
         body {
             font-family: 'Itim', sans-serif;
-            background-image: url('Sci-Tech-pic.png');
+            background-image: url('logo_computer_lab.png');
             background-size: cover;
             background-repeat: no-repeat;
             background-attachment: fixed;
@@ -72,7 +72,10 @@
 
 <body>
     <div id="container">
-        <h1>Computer Lab Check</h1>
+        <h1>
+            <br>
+            <br>
+    </h1>
         <form id="form" action="index.php" method="post">
             <label for="idNumber">เลขประจำตัวนักเรียน:</label>
             <input type="text" id="idNumber" name="idNumber" placeholder="รหัสนักเรียน 5หลัก">
@@ -86,11 +89,11 @@
         </form>
     </div>
     <div style="text-align: center;">
-        <img id="img-main" src="programmer-anime.gif" width="150">
+        <img id="img-main" src="" width="120">
     </div>
     <div id="credit">
         <h4>
-            Created by <br><br> <a style="color: #FFFFFF;" href="https://github.com/kang49">Kankawee Aramrak M.5/6</a>
+            © 2023 <a style="color: #FFFFFF;" href="https://github.com/kang49">Kankawee Aramrak M.5/6</a>
         </h4>
     </div>
 </body>
@@ -104,26 +107,35 @@
         var room = document.getElementById("room").value;
         var xhttp = new XMLHttpRequest();
 
+        // Check if the required fields have values
+        if (!idNumber || !room) {
+            document.getElementById("message").innerHTML = "โปรดใส่ข้อมูลให้ครบถ้วน";
+            return;
+        }
+
         // Send the ID number and note number to the PHP script
+        var formData = new FormData();
+        formData.append("idNumber", idNumber);
+        formData.append("note", note);
+        formData.append("room", room);
         xhttp.open("POST", "index.php", true);
-        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp.send("idNumber=" + idNumber + "&note=" + note + "&room=" + room);
+        xhttp.send(formData);
 
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 // Handle the response from the PHP script
                 try {
                     var response = JSON.parse(xhttp.responseText);
-                    console.log('TestHTML')
-                    console.log(response.status)
                     if (response.status == "success") {
                     document.getElementById("idNumber").value = "";
                     document.getElementById("note").value = "";
                     document.getElementById("message").innerHTML = response.noti + " " + response.name;
+                    document.getElementById("img-main").width = "120"
                     document.getElementById("img-main").src = "cute-anime.gif"
 
                     setTimeout(function(){
                         document.getElementById("message").innerHTML = "";
+                        document.getElementById("img-main").width = "0"
                     }, 5000);
                 }
                 else {
@@ -136,3 +148,5 @@
         };
     }
 </script>
+
+
