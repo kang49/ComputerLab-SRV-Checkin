@@ -204,6 +204,10 @@
                 }
                 else {
                         document.getElementById("message").innerHTML = "รหัสประจำตัวนักเรียนไม่ถูกต้อง";
+                        setTimeout(function(){
+                            document.getElementById("message").innerHTML = "";
+                            document.getElementById("img-main").width = "0"
+                        }, 5000);
                     }
                 } catch (e) {
                     document.getElementById("message").innerHTML = "Backend not response, Call Admin";
