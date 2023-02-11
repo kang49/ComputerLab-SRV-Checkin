@@ -23,10 +23,20 @@
             padding: 20px;
         }
 
+        .form-group {
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 10px;
+        }
+
+        label {
+        display: block;
+        margin-bottom: 5px;
+        }
+
         input {
             text-align: center;
             font-size: 18px;
-            margin: 10px auto;
             font-size: 14px;
             border-radius: 6px;
             line-height: 1.5;
@@ -62,6 +72,12 @@
             border: 0;
         }
 
+        @media screen and (max-width: 480px) {
+            .form-group {
+                display: block;
+                margin-bottom: 10px;
+            }
+        }
         #credit {
             text-align: center;
             font-size: 12px;
@@ -75,29 +91,68 @@
         <h1>
             <br>
             <br>
-    </h1>
+        </h1>
         <form id="form" action="index.php" method="post">
-            <label for="idNumber">เลขประจำตัวนักเรียน:</label>
-            <input type="text" id="idNumber" name="idNumber" placeholder="รหัสนักเรียน 5หลัก">
-            <label for="room">ห้อง:</label>
-            <input id="room" name="room" placeholder="หมายเลขห้องปฏิบัติการ">
-            <label for="note">หมายเหตุ:</label>
-            <input id="note" name="note" placeholder="ไม่จำเป็น">
+            <div class="form-group">
+                <label for="idNumber">เลขประจำตัวนักเรียน:</label>
+                <input type="text" id="idNumber" oninput="submitToOutCheck(event)" name="idNumber" placeholder="รหัสนักเรียน 5 หลัก" style="width: 130px;">
+            </div>
+            <div class="form-group">
+                <label for="room">ห้อง:</label>
+                <input id="room" name="room" placeholder="เลขห้อง" style="width: 130px;">
+            </div>
             <br>
-            <button type="submit" onclick="submitFunc(event)">ลงชื่อเข้า-ออก</button>
+            <div class="form-group">
+                <label for="note">หมายเหตุ:</label>
+                <input id="note" name="note" placeholder="ไม่จำเป็น">
+            </div>
+            <br>
+            <br>
+            <div style="text-align: center;">
+                <button id="submit" type="submit" onclick="submitFunc(event)">ลงชื่อเข้า-ออก</button>
+            </div>
             <p id="message"></p>
         </form>
     </div>
     <div style="text-align: center;">
-        <img id="img-main" src="" width="120">
+        <img id="img-main" src="" width="150">
     </div>
     <div id="credit">
         <h4>
             © 2023 <a style="color: #FFFFFF;" href="https://github.com/kang49">Kankawee Aramrak M.5/6</a>
         </h4>
-    </div>
+    </div>    
 </body>
 <script>
+    function submitToOutCheck(event) {
+        event.preventDefault();
+
+        // Get the input values
+        var idNumber = document.getElementById("idNumber").value;
+        var xhttp = new XMLHttpRequest();
+
+        // Send the ID number and note number to the PHP script
+        var formData = new FormData();
+        formData.append("idNumber", idNumber);
+        xhttp.open("POST", "checkIn_or_out.php", true);
+        xhttp.send(formData);
+
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                // Handle the response from the PHP script
+                try {
+                    var response = JSON.parse(xhttp.responseText);
+                    console.log(response.idInForm)
+                    if (response.idInForm == "out") {
+                        document.getElementById("submit").style = "background: red;"
+                    }
+                } catch (e) {
+                    console.log("Error: Failed to parse response from PHP script");
+                }
+            }
+        }
+    }
+    
     function submitFunc(event) {
         event.preventDefault();
 
@@ -130,7 +185,7 @@
                     document.getElementById("idNumber").value = "";
                     document.getElementById("note").value = "";
                     document.getElementById("message").innerHTML = response.noti + " " + response.name;
-                    document.getElementById("img-main").width = "120"
+                    document.getElementById("img-main").width = "150"
                     document.getElementById("img-main").src = "cute-anime.gif"
 
                     setTimeout(function(){
