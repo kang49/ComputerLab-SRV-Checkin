@@ -49,9 +49,9 @@
         echo json_encode(array("status" => "failure", "message" => "Error: Student not found in Students_data.json"));
         exit();
     }
+    $idInForm = "in";
 
     // Check if the student is in form.json
-    $idInForm = "in";
     for ($no = 0; $no < count($formData); $no++) {
         if ($formData[$no]['ID Number'] == $idNumber && $formData[$no]['Out'] == null) {
             // Check if student has checked-in for more than 6 hours
@@ -75,19 +75,15 @@
 
             if ($hour < 6 && $day == 0 && $month == 0 && $year == 0) {
                 $idInForm = "out";
-                // Return a response to the JavaScript
-                echo json_encode(array("status" => "success", "idInForm" => $idInForm));
-                exit();
             }
-            else {
-                $idInForm = "in";
-                // Return a response to the JavaScript
-                echo json_encode(array("status" => "success", "idInForm" => $idInForm));
-                exit();
-            }
+            // Return a response to the JavaScript
+            echo json_encode(array("status" => "success", "idInForm" => $idInForm));
+            exit();
         }
     }
 
-    echo json_encode(array("status" => "failure", "message" => "Error: Student not found in form.json", $idInForm));
+    // Return a response to the JavaScript
+    echo json_encode(array("status" => "success", "idInForm" => $idInForm));
     exit();
+
 ?>

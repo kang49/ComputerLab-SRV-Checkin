@@ -125,6 +125,8 @@
 </body>
 <script>
     function submitToOutCheck(event) {
+        document.getElementById("submit").innerHTML = "ลงชื่อเข้า-ออก";
+        document.getElementById("submit").style = "background: 0caeff;"
         event.preventDefault();
 
         // Get the input values
@@ -144,7 +146,12 @@
                     var response = JSON.parse(xhttp.responseText);
                     console.log(response.idInForm)
                     if (response.idInForm == "out") {
+                        document.getElementById("submit").innerHTML = "ลงชื่อออก";
                         document.getElementById("submit").style = "background: red;"
+                    }
+                    if (response.idInForm == "in") {
+                        document.getElementById("submit").innerHTML = "ลงชื่อเข้า";
+                        document.getElementById("submit").style = "background: 0caeff;"
                     }
                 } catch (e) {
                     console.log("Error: Failed to parse response from PHP script");
@@ -187,6 +194,8 @@
                     document.getElementById("message").innerHTML = response.noti + " " + response.name;
                     document.getElementById("img-main").width = "150"
                     document.getElementById("img-main").src = "cute-anime.gif"
+                    document.getElementById("submit").innerHTML = "ลงชื่อเข้า-ออก";
+                    document.getElementById("submit").style = "background: 0caeff;"
 
                     setTimeout(function(){
                         document.getElementById("message").innerHTML = "";
