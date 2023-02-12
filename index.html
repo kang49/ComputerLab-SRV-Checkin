@@ -36,25 +36,25 @@
         }
 
         input {
+            box-shadow: #70a5fd 0 10px 20px -10px;
             text-align: start;
             font-size: 18px;
             font-size: 14px;
-            border-radius: 6px;
+            border-radius: 20px;
             line-height: 1.5;
             padding: 0px 10px;
             transition: box-shadow 100ms ease-in, border 100ms ease-in, background-color 100ms ease-in;
-            border: 5px solid #0caeff;
+            border: 5px solid #70a5fd;
             color: rgb(14, 14, 16);
             background: #FFFFFF;
             display: block;
             height: 33px;
-            width: 300px;
         }
 
         button {
             background: lightgrey;
             border-radius: 999px;
-            box-shadow: #0caeff 0 10px 20px -10px;
+            box-shadow: #70a5fd 0 10px 20px -10px;
             box-sizing: border-box;
             color: gray;
             cursor: pointer;
@@ -106,7 +106,7 @@
             <div class="form-group">
                 <br>
                 <label for="note">หมายเหตุ:</label>
-                <input id="note" name="note" placeholder="ไม่จำเป็น">
+                <input id="note" name="note" placeholder="ไม่จำเป็น" style="width: 300px;">
             </div>
             <br>
             <br>
@@ -130,6 +130,7 @@
     document.getElementById("submit").addEventListener("click", function() {
         if (!isLocked) {
             document.getElementById("room").setAttribute("disabled", true);
+            document.getElementById("room").style = "background: lightgrey; color: white; width: 130px; border: 5px solid grey; box-shadow: grey 0 10px 20px -10px;"
             document.getElementById("room_label").innerHTML = "ห้อง:  (Input locked)";
             isLocked = true;
         }
@@ -158,11 +159,11 @@
                     console.log(response.idInForm)
                     if (response.idInForm == "out") {
                         document.getElementById("submit").innerHTML = "ลงชื่อออก";
-                        document.getElementById("submit").style = "background: red; color: white;"
+                        document.getElementById("submit").style = "background: red; color: white; box-shadow: red 0 10px 20px -10px;"
                     }
                     if (response.idInForm == "in") {
                         document.getElementById("submit").innerHTML = "ลงชื่อเข้า";
-                        document.getElementById("submit").style = "background: #0caeff; color: white;"
+                        document.getElementById("submit").style = "background: #70a5fd; color: white; box-shadow: #70a5fd 0 10px 20px -10px;"
                     }
                 } catch (e) {
                     console.log("Error: Failed to parse response from PHP script");

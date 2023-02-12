@@ -11,7 +11,7 @@ with open('/volume1/web/ComputerLab-SRV-Checkin/form.json', 'w', encoding='utf-8
 
 df = pd.DataFrame(data)
 #Save for system
-df.to_excel("/volume1/web/ComputerLab-SRV-Checkin/form.xlsx", index=False)
+# df.to_excel("/volume1/web/ComputerLab-SRV-Checkin/form.xlsx", index=False)
 
 #Save for user
 current_month = datetime.datetime.now().strftime("%B")
