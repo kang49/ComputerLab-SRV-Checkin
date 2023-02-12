@@ -2,26 +2,66 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Com Lab Chart</title>
+    <title>Computer Lab Analysis</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <style>
     body {
+        background-color: #201c24;
+        color: #f0f0f0;
         font-family: 'Itim', sans-serif;
         background-size: cover;
         background-repeat: no-repeat;
         background-attachment: fixed;
         color: white;
     }
+
+    .chart-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        gap: 20px;
+        padding: 20px;
+        background-color: #201c24;
+        margin: 0 auto; /* add this line to center the container */
+        max-width: 1200px; /* adjust this value to the desired width */
+    }
+
+
+    .chart-item {
+        margin: 0 auto; /* add this line to center the container */
+        max-width: 1200px; /* adjust this value to the desired width */
+        position: relative;
+        height: 40vh;
+        width: 20vw;
+        background-color: #2d2d2d;
+        border-radius: 10px;
+        padding: 20px;
+    }
+
+    canvas {
+        width: 100%;
+        height: 100%;
+    }
 </style>
 
 <body>
-    <div class="chart-container" style="position: relative; height:40vh; width:80vw">
-        <canvas id="ClassChart"></canvas>
-        <canvas id="RoomOfClassChart"></canvas>
-        <canvas id="RoomChart"></canvas>
-        <canvas id="genderChart"></canvas>
-        <canvas id="TimeInChart"></canvas>
+    <div style="text-align: center; color: #70a5fd;">
+        <h1>Computer Lab Data Analysis</h1>
+    </div>
+    <div class="chart-container">
+        <div class="chart-item">
+            <canvas id="ClassChart"></canvas>
+        </div>
+        <div class="chart-item">
+            <canvas id="RoomOfClassChart"></canvas>
+        </div>
+        <div class="chart-item">
+            <canvas id="RoomChart"></canvas>
+        </div>
+        <div class="chart-item">
+            <canvas id="genderChart"></canvas>
+        </div>
     </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -96,6 +136,7 @@
                     plugins: {
                         title: {
                             display: true,
+                            color: '#70a5fd',
                             text: 'ห้อง Lab ที่นักเรียนเข้ามากที่สุด'
                         },
                         legend: {
@@ -177,6 +218,7 @@
                     plugins: {
                         title: {
                             display: true,
+                            color: '#70a5fd',
                             text: 'ห้องที่นักเรียนใช้ Lab มากที่สุด'
                         },
                         legend: {
@@ -238,6 +280,7 @@
                     plugins: {
                         title: {
                             display: true,
+                            color: '#70a5fd',
                             text: 'จำนวนนักเรียนแต่ระดับชั้นที่ใช้ห้อง Computer Lab',
                         },
                     },
@@ -319,6 +362,7 @@
                     plugins: {
                         title: {
                             display: true,
+                            color: '#70a5fd',
                             text: 'จำนวนชาย-หญิงที่ใช้ห้อง Lab'
                         },
                         legend: {
@@ -331,67 +375,4 @@
                 }
             });
         });
-
-    let mostTimeCount = {};
-    fetch('form.json')
-        .then(response => response.json())
-        .then(data => {
-            data.forEach(student => {
-                let mostTime = student['In'];
-                if (!mostTimeCount[mostTime]) {
-                    mostTimeCount[mostTime] = 1;
-                } else {
-                    mostTimeCount[mostTime]++;
-                }
-            });
-
-            // Sort the mostTime count in descending order
-            let sortedMostTime = Object.entries(mostTimeCount).sort((a, b) => b[1] - a[1]);
-
-            // Get the top 10 mostTimes and store the mostTime names and count in separate arrays
-            let labels = [];
-            let counts = [];
-            for (let i = 0; i < 24; i++) {
-                let hour = i < 10 ? `0${i}:00` : `${i}:00`;
-                labels.push(hour);
-                counts.push(0);
-            }
-
-            sortedMostTime.forEach(time => {
-                let hour = parseInt(time[0].split(':')[0]);
-                counts[hour] = time[1];
-            });
-
-            const mostInTimeContext = document.getElementById('TimeInChart');
-            new Chart(mostInTimeContext, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: '# of Uses',
-                        data: counts,
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'Most Used Rooms in the Last 24 Hours',
-                        },
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-        });
-
 </script>
