@@ -52,11 +52,11 @@
         }
 
         button {
-            background: #0caeff;
+            background: lightgrey;
             border-radius: 999px;
             box-shadow: #0caeff 0 10px 20px -10px;
             box-sizing: border-box;
-            color: #FFFFFF;
+            color: gray;
             cursor: pointer;
             font-family: Inter,Helvetica,"Apple Color Emoji","Segoe UI Emoji",NotoColorEmoji,"Noto Color Emoji","Segoe UI Symbol","Android Emoji",EmojiSymbols,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans",sans-serif;
             font-size: 16px;
@@ -99,7 +99,7 @@
                 <input type="text" id="idNumber" oninput="submitToOutCheck(event)" name="idNumber" placeholder="รหัสนักเรียน 5 หลัก*" style="width: 130px;">
             </div>
             <div class="form-group">
-                <label for="room">ห้อง:</label>
+                <label id="room_label" for="room">ห้อง:</label>
                 <input id="room" name="room" placeholder="เลขห้องคอม*" style="width: 130px;">
             </div>
             <br>
@@ -130,13 +130,14 @@
     document.getElementById("submit").addEventListener("click", function() {
         if (!isLocked) {
             document.getElementById("room").setAttribute("disabled", true);
+            document.getElementById("room_label").innerHTML = "ห้อง:  (Locked input)";
             isLocked = true;
         }
     });
 
     function submitToOutCheck(event) {
         document.getElementById("submit").innerHTML = "ลงชื่อเข้า-ออก";
-        document.getElementById("submit").style = "background: 0caeff;"
+        document.getElementById("submit").style = "background: lightgrey;"
         event.preventDefault();
 
         // Get the input values
@@ -157,11 +158,11 @@
                     console.log(response.idInForm)
                     if (response.idInForm == "out") {
                         document.getElementById("submit").innerHTML = "ลงชื่อออก";
-                        document.getElementById("submit").style = "background: red;"
+                        document.getElementById("submit").style = "background: red; color: white;"
                     }
                     if (response.idInForm == "in") {
                         document.getElementById("submit").innerHTML = "ลงชื่อเข้า";
-                        document.getElementById("submit").style = "background: 0caeff;"
+                        document.getElementById("submit").style = "background: #0caeff; color: white;"
                     }
                 } catch (e) {
                     console.log("Error: Failed to parse response from PHP script");
@@ -182,6 +183,9 @@
         // Check if the required fields have values
         if (!idNumber || !room) {
             document.getElementById("message").innerHTML = "โปรดใส่ข้อมูลให้ครบถ้วน";
+            setTimeout(function(){
+                document.getElementById("message").innerHTML = "";
+            }, 5000);
             return;
         }
 
@@ -205,7 +209,7 @@
                     document.getElementById("img-main").width = "150"
                     document.getElementById("img-main").src = "cute-anime.gif"
                     document.getElementById("submit").innerHTML = "ลงชื่อเข้า-ออก";
-                    document.getElementById("submit").style = "background: 0caeff;"
+                    document.getElementById("submit").style = "background: lightgrey;"
 
                     setTimeout(function(){
                         document.getElementById("message").innerHTML = "";
