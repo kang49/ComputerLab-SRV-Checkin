@@ -30,12 +30,13 @@
         }
 
         label {
-        display: block;
-        margin-bottom: 5px;
+            text-align: start;
+            display: block;
+            margin-bottom: 5px;
         }
 
         input {
-            text-align: center;
+            text-align: start;
             font-size: 18px;
             font-size: 14px;
             border-radius: 6px;
@@ -91,18 +92,19 @@
         <h1>
             <br>
             <br>
-        </h1>
+        </h1>        
         <form id="form" action="index.php" method="post">
             <div class="form-group">
-                <label for="idNumber">เลขประจำตัวนักเรียน:</label>
-                <input type="text" id="idNumber" oninput="submitToOutCheck(event)" name="idNumber" placeholder="รหัสนักเรียน 5 หลัก" style="width: 130px;">
+                <label for="idNumber">รหัสประจำตัวนักเรียน:</label>
+                <input type="text" id="idNumber" oninput="submitToOutCheck(event)" name="idNumber" placeholder="รหัสนักเรียน 5 หลัก*" style="width: 130px;">
             </div>
             <div class="form-group">
                 <label for="room">ห้อง:</label>
-                <input id="room" name="room" placeholder="เลขห้อง" style="width: 130px;">
+                <input id="room" name="room" placeholder="เลขห้องคอม*" style="width: 130px;">
             </div>
             <br>
             <div class="form-group">
+                <br>
                 <label for="note">หมายเหตุ:</label>
                 <input id="note" name="note" placeholder="ไม่จำเป็น">
             </div>
@@ -124,6 +126,14 @@
     </div>    
 </body>
 <script>
+    var isLocked = false;
+    document.getElementById("submit").addEventListener("click", function() {
+        if (!isLocked) {
+            document.getElementById("room").setAttribute("disabled", true);
+            isLocked = true;
+        }
+    });
+
     function submitToOutCheck(event) {
         document.getElementById("submit").innerHTML = "ลงชื่อเข้า-ออก";
         document.getElementById("submit").style = "background: 0caeff;"
