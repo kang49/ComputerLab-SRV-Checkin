@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Com Lab Chart</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<style>
+    body {
+        font-family: 'Itim', sans-serif;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        color: white;
+    }
+</style>
+
+<body>
+    <div class="chart-container" style="position: relative; height:40vh; width:80vw">
+        <canvas id="ClassChart"></canvas>
+        <canvas id="RoomOfClassChart"></canvas>
+        <canvas id="RoomChart"></canvas>
+        <canvas id="genderChart"></canvas>
+        <canvas id="TimeInChart"></canvas>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+    //The most Lab used
+    let roomCount = {};
+    fetch('form.json')
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(student => {
+                let room = student['Lab Room'];
+                if (room in roomCount) {
+                    roomCount[room]++;
+                } else {
+                    roomCount[room] = 1;
+                }
+            });
+            return roomCount;
+        })
+        .then(roomCount => {
+            let rooms = Object.keys(roomCount);
+            let roomData = Object.values(roomCount);
+            if (rooms.length > 10) {
+                let otherRooms = rooms.slice(10);
+                let otherCount = 0;
+                otherRooms.forEach(room => {
+                    otherCount += roomCount[room];
+                });
+                rooms = rooms.slice(0, 10);
+                rooms.push('Other');
+                roomData = roomData.slice(0, 10);
+                roomData.push(otherCount);
+            }
+            const labRoomContext = document.getElementById('RoomChart');
+            new Chart(labRoomContext, {
+                type: 'pie',
+                data: {
+                    labels: rooms,
+                    datasets: [{
+                        label: 'ใช้ห้องนี้แล้ว',
+                        data: roomData,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)',
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'ห้อง Lab ที่นักเรียนเข้ามากที่สุด'
+                        },
+                        legend: {
+                            display: true,
+                            labels: {
+                                fontColor: 'rgb(255, 255, 255)'
+                            }
+                        }
+                    }
+                }
+            });
+        });
+
+    //The most room use Lab
+    let roomOfClassCount = {};
+    fetch('form.json')
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(student => {
+                let roomOfClass = student['Class'];
+                if (roomOfClass in roomOfClassCount) {
+                    roomOfClassCount[roomOfClass]++;
+                } else {
+                    roomOfClassCount[roomOfClass] = 1;
+                }
+            });
+            return roomOfClassCount;
+        })
+        .then(roomOfClassCount => {
+            let roomOfClasss = Object.keys(roomOfClassCount);
+            let roomOfClassData = Object.values(roomOfClassCount);
+            if (roomOfClasss.length > 10) {
+                let otherRoomsOfClass = roomOfClasss.slice(10);
+                let otherCount = 0;
+                otherRoomsOfClass.forEach(roomOfClass => {
+                    otherCount += roomOfClassCount[roomOfClass];
+                });
+                roomOfClasss = roomOfClasss.slice(0, 10);
+                roomOfClasss.push('Other');
+                roomOfClassData = roomOfClassData.slice(0, 10);
+                roomOfClassData.push(otherCount);
+            }
+            const roomOfClassContext = document.getElementById('RoomOfClassChart');
+            new Chart(roomOfClassContext, {
+                type: 'pie',
+                data: {
+                    labels: roomOfClasss,
+                    datasets: [{
+                        label: 'ใช้ห้องนี้แล้ว',
+                        data: roomOfClassData,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)',
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'ห้องที่นักเรียนใช้ Lab มากที่สุด'
+                        },
+                        legend: {
+                            display: true,
+                            labels: {
+                                fontColor: 'rgb(255, 255, 255)'
+                            }
+                        }
+                    }
+                }
+            });
+        });
+
+    //M of Class
+    let ClassCount = [0, 0, 0, 0, 0, 0];
+    fetch('form.json')
+        .then(response => response.json())
+        .then(data => {
+            let Class = [];
+            data.forEach(student => {
+                let moreOfClass = parseInt(student['Class'].split('/')[0]);
+                Class.push(moreOfClass);
+            });
+            Class.forEach(moreOfClass => {
+                ClassCount[moreOfClass - 1]++;
+            });
+            return ClassCount;
+        })
+        .then(ClassCount => {
+            console.log(ClassCount);
+            const ClassChartContext = document.getElementById('ClassChart');
+            new Chart(ClassChartContext, {
+                type: 'pie',
+                data: {
+                    labels: ['ม.1', 'ม.2', 'ม.3', 'ม.4', 'ม.5', 'ม.6'],
+                    datasets: [{
+                        label: 'มีนักเรียนเข้าทั้งหมด',
+                        data: ClassCount,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'จำนวนนักเรียนแต่ระดับชั้นที่ใช้ห้อง Computer Lab',
+                        },
+                    },
+                    legend: {
+                        display: true,
+                        labels: {
+                            fontColor: 'rgb(255, 255, 255)'
+                        }
+                    }
+                }
+            });
+        });
+
+    //The most gender use Lab
+    let genderCount = {};
+    fetch('form.json')
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(student => {
+                let gender = student['Gender'];
+                if (gender in genderCount) {
+                    genderCount[gender]++;
+                } else {
+                    genderCount[gender] = 1;
+                }
+            });
+            return genderCount;
+        })
+        .then(genderCount => {
+            let genders = Object.keys(genderCount);
+            let genderData = Object.values(genderCount);
+            if (genders.length > 10) {
+                let otherGender = genders.slice(10);
+                let otherCount = 0;
+                otherGender.forEach(gender => {
+                    otherCount += genderCount[gender];
+                });
+                genders = genders.slice(0, 10);
+                genders.push('Other');
+                genderData = genderData.slice(0, 10);
+                genderData.push(otherCount);
+            }
+            const genderContext = document.getElementById('genderChart');
+            new Chart(genderContext, {
+                type: 'pie',
+                data: {
+                    labels: genders,
+                    datasets: [{
+                        label: 'ใช้ห้องนี้แล้ว',
+                        data: genderData,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)',
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'จำนวนชาย-หญิงที่ใช้ห้อง Lab'
+                        },
+                        legend: {
+                            display: true,
+                            labels: {
+                                fontColor: 'rgb(255, 255, 255)'
+                            }
+                        }
+                    }
+                }
+            });
+        });
+
+    let mostTimeCount = {};
+    fetch('form.json')
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(student => {
+                let mostTime = student['In'];
+                if (!mostTimeCount[mostTime]) {
+                    mostTimeCount[mostTime] = 1;
+                } else {
+                    mostTimeCount[mostTime]++;
+                }
+            });
+
+            // Sort the mostTime count in descending order
+            let sortedMostTime = Object.entries(mostTimeCount).sort((a, b) => b[1] - a[1]);
+
+            // Get the top 10 mostTimes and store the mostTime names and count in separate arrays
+            let labels = [];
+            let counts = [];
+            for (let i = 0; i < 24; i++) {
+                let hour = i < 10 ? `0${i}:00` : `${i}:00`;
+                labels.push(hour);
+                counts.push(0);
+            }
+
+            sortedMostTime.forEach(time => {
+                let hour = parseInt(time[0].split(':')[0]);
+                counts[hour] = time[1];
+            });
+
+            const mostInTimeContext = document.getElementById('TimeInChart');
+            new Chart(mostInTimeContext, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: '# of Uses',
+                        data: counts,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Most Used Rooms in the Last 24 Hours',
+                        },
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+
+</script>
