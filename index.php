@@ -104,11 +104,11 @@
         $registData = array(
             "No." => count($formData) + 1,
             "Date" => date('d-m-Y'),
-            "Gender" => $gender,
-            "Name" => $name,
             "ID Number" => $formIdnumber,
+            "Name" => $name,
             "Lastname" => $lastName,
             "Class" => $class,
+            "Gender" => $gender,
             "In" => date('H:i:s'),
             "Out" => null,
             "Lab Room" => $room,
