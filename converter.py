@@ -2,11 +2,11 @@ import json
 import pandas as pd
 import datetime
 
-with open('form.json', 'rb') as file:
+with open('/volume1/web/ComputerLab-SRV-Checkin/form.json', 'rb') as file:
     data = file.read().decode('utf-8')
     data = json.loads(data)
 
-with open('form.json', 'w', encoding='utf-8') as file:
+with open('/volume1/web/ComputerLab-SRV-Checkin/form.json', 'w', encoding='utf-8') as file:
     json.dump(data, file, ensure_ascii=False)
 
 df = pd.DataFrame(data)
@@ -37,7 +37,7 @@ month_thai = {
 
 current_month_thai = month_thai[current_month]
 
-file_name = f"{current_month}_{current_year}.xlsx"
+file_name = f"/volume1/web/ComputerLab-SRV-Checkin/formData/{current_month}_{current_year}.xlsx"
 
 # Create a list of headers
 headers = ['ที่', 'วัน-เดือน-ปี', 'รหัสนักเรียน', 'ชื่อ', 'นามสกุล', 'ชั้น', 'เพศ', 'เข้า', 'ออก', 'Lab Room', 'หมายเหตุ']
