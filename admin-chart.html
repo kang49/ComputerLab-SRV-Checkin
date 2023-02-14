@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Computer Lab Analysis</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<style>
+    body {
+        background-color: #28242c;
+        color: #f0f0f0;
+        font-family: 'Itim', sans-serif;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        color: white;
+    }
+
+    #dataSelect {
+        background: #1a1b27;
+        border-radius: 999px;
+        box-shadow: #4734b5 0 10px 20px -10px;
+        color: #70a5fd;
+        cursor: pointer;
+        font-family: Inter, Helvetica, "Apple Color Emoji", "Segoe UI Emoji", NotoColorEmoji, "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", EmojiSymbols, -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", sans-serif;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 24px;
+        opacity: 1;
+        outline: 0 solid transparent;
+        padding: 8px 18px;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        width: fit-content;
+        word-break: break-word;
+        border: 0;
+}
+
+
+    button {
+        background: #1a1b27;
+        border-radius: 999px;
+        box-shadow: #4734b5 0 10px 20px -10px;
+        box-sizing: border-box;
+        color: #70a5fd;
+        cursor: pointer;
+        font-family: Inter, Helvetica, "Apple Color Emoji", "Segoe UI Emoji", NotoColorEmoji, "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", EmojiSymbols, -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", sans-serif;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 24px;
+        opacity: 1;
+        outline: 0 solid transparent;
+        padding: 8px 18px;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        width: fit-content;
+        word-break: break-word;
+        border: 0;
+    }
+
+    .chart-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        gap: 20px;
+        padding: 20px;
+        background-color: #28242c;
+        margin: 0 auto;
+        /* add this line to center the container */
+        max-width: 1200px;
+        /* adjust this value to the desired width */
+    }
+
+
+    .chart-item {
+        margin: 0 auto;
+        /* add this line to center the container */
+        max-width: 1200px;
+        /* adjust this value to the desired width */
+        position: relative;
+        height: 40vh;
+        width: 20vw;
+        background-color: #1a1b27;
+        border-radius: 10px;
+        padding: 20px;
+    }
+
+    canvas {
+        width: 100%;
+        height: 100%;
+    }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<body>
+    <div style="text-align: center; color: #70a5fd;">
+        <h1>Computer Lab Data Analysis</h1>
+        <select id="dataSelect">
+            <option value="non-select">Select month</option>
+            <option value="option">Current month</option>
+            <option value="option1">1 month ago</option>
+            <option value="option2">2 month ago</option>
+            <option value="option3">3 month ago</option>
+            <option value="option4">4 month ago</option>
+            <option value="option5">5 month ago</option>
+            <option value="option6">6 month ago</option>
+        </select>
+        <br>
+        <br>
+        <div style="text-align: center;">
+            <a href="https://g49synology120j.direct.quickconnect.to:5001/d/s/sLbkViyjuVDYdhBrZZVELhpbqiR0IWbJ/enPb-ZTBbgnTu56CepW-ujWFYLlaFC2E-i7pA9BHSNQo"
+                download>
+                <button id="submit" type="submit">
+                     Excel <i class="fa fa-cloud-download"></i>
+                </button>
+            </a>
+
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-item">
+                <canvas id="ClassChart"></canvas>
+            </div>
+            <div class="chart-item">
+                <canvas id="RoomOfClassChart"></canvas>
+            </div>
+            <div class="chart-item">
+                <canvas id="RoomChart"></canvas>
+            </div>
+            <div class="chart-item">
+                <canvas id="genderChart"></canvas>
+            </div>
+        </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    var selectElement = document.getElementById("dataSelect");
+    selectElement.addEventListener("change", function () {
+        var selectedOption = selectElement.value;
+        var formDataJson = '';
+
+        //Get time
+        var today = new Date();
+        var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        var current_month = months[today.getMonth()];
+        var current_year = today.getFullYear() + 543;
+        formDataJson = `/formDataJson/${current_month}_${current_year}.json`;
+
+
+        // Thai time
+        month_thai = {
+            "January": "มกราคม",
+            "February": "กุมภาพันธ์",
+            "March": "มีนาคม",
+            "April": "เมษายน",
+            "May": "พฤษภาคม",
+            "June": "มิถุนายน",
+            "July": "กรกฎาคม",
+            "August": "สิงหาคม",
+            "September": "กันยายน",
+            "October": "ตุลาคม",
+            "November": "พฤศจิกายน",
+            "December": "ธันวาคม"
+        }
+
+        current_month_thai = month_thai[current_month]
+
+        //Get data from name each selecting
+        if (selectedOption === "option") {
+            formDataJson = `/formDataJson/${current_month}_${current_year}.json`;
+        }
+        else if (selectedOption === "option1") {
+            if (current_month == "January") {
+                current_month = "December"
+                current_year -= 1;
+            }
+            else if (current_month == "February") {
+                current_month = "January"
+            }
+            else if (current_month == "March") {
+                current_month = "February"
+            }
+            else if (current_month == "April") {
+                current_month = "March"
+            }
+            else if (current_month == "May") {
+                current_month = "April"
+            }
+            else if (current_month == "June") {
+                current_month = "May"
+            }
+            else if (current_month == "July") {
+                current_month = "June"
+            }
+            else if (current_month == "August") {
+                current_month = "July"
+            }
+            else if (current_month == "September") {
+                current_month = "August"
+            }
+            else if (current_month == "October") {
+                current_month = "September"
+            }
+            else if (current_month == "November") {
+                current_month = "October"
+            }
+            else if (current_month == "December") {
+                current_month = "November"
+            }
+            formDataJson = `/formDataJson/${current_month}_${current_year}.json`;
+        }
+        else if (selectedOption === "option2") {
+            if (current_month == "January") {
+                current_year -= 1;
+                current_month = "November"
+            }
+            else if (current_month == "February") {
+                current_year -= 1;
+                current_month = "December"
+            }
+            else if (current_month == "March") {
+                current_month = "January"
+            }
+            else if (current_month == "April") {
+                current_month = "February"
+            }
+            else if (current_month == "May") {
+                current_month = "March"
+            }
+            else if (current_month == "June") {
+                current_month = "April"
+            }
+            else if (current_month == "July") {
+                current_month = "May"
+            }
+            else if (current_month == "August") {
+                current_month = "June"
+            }
+            else if (current_month == "September") {
+                current_month = "July"
+            }
+            else if (current_month == "October") {
+                current_month = "August"
+            }
+            else if (current_month == "November") {
+                current_month = "September"
+            }
+            else if (current_month == "December") {
+                current_month = "October"
+            }
+            formDataJson = `/formDataJson/${current_month}_${current_year}.json`;
+        }
+        else if (selectedOption === "option3") {
+            if (current_month === "January") {
+                current_year -= 1;
+                current_month = "October";
+            }
+            else if (current_month === "February") {
+                current_year -= 1;
+                current_month = "November";
+            }
+            else if (current_month === "March") {
+                current_year -= 1;
+                current_month = "December";
+            }
+            else if (current_month === "April") {
+                current_month = "January";
+            }
+            else if (current_month === "May") {
+                current_month = "February";
+            }
+            else if (current_month === "June") {
+                current_month = "March";
+            }
+            else if (current_month === "July") {
+                current_month = "April";
+            }
+            else if (current_month === "August") {
+                current_month = "May";
+            }
+            else if (current_month === "September") {
+                current_month = "June";
+            }
+            else if (current_month === "October") {
+                current_month = "July";
+            }
+            else if (current_month === "November") {
+                current_month = "August";
+            }
+            else if (current_month === "December") {
+                current_month = "September";
+            }
+            formDataJson = `/formDataJson/${current_month}_${current_year}.json`;
+        }
+        else if (selectedOption === "option4") {
+            if (current_month === "January") {
+                current_year -= 1;
+                current_month = "September";
+            }
+            else if (current_month === "February") {
+                current_year -= 1;
+                current_month = "October";
+            }
+            else if (current_month === "March") {
+                current_year -= 1;
+                current_month = "November";
+            }
+            else if (current_month === "April") {
+                current_year -= 1;
+                current_month = "December";
+            }
+            else if (current_month === "May") {
+                current_month = "January";
+            }
+            else if (current_month === "June") {
+                current_month = "February";
+            }
+            else if (current_month === "July") {
+                current_month = "March";
+            }
+            else if (current_month === "August") {
+                current_month = "April";
+            }
+            else if (current_month === "September") {
+                current_month = "May";
+            }
+            else if (current_month === "October") {
+                current_month = "June";
+            }
+            else if (current_month === "November") {
+                current_month = "July";
+            }
+            else if (current_month === "December") {
+                current_month = "August";
+            }
+            formDataJson = `/formDataJson/${current_month}_${current_year}.json`;
+        }
+        else if (selectedOption === "option5") {
+            if (current_month === "January") {
+                current_year -= 1;
+                current_month = "August";
+            }
+            else if (current_month === "February") {
+                current_year -= 1;
+                current_month = "September";
+            }
+            else if (current_month === "March") {
+                current_year -= 1;
+                current_month = "October";
+            }
+            else if (current_month === "April") {
+                current_year -= 1;
+                current_month = "November";
+            }
+            else if (current_month === "May") {
+                current_year -= 1;
+                current_month = "December";
+            }
+            else if (current_month === "June") {
+                current_month = "January";
+            }
+            else if (current_month === "July") {
+                current_month = "February";
+            }
+            else if (current_month === "August") {
+                current_month = "March";
+            }
+            else if (current_month === "September") {
+                current_month = "April";
+            }
+            else if (current_month === "October") {
+                current_month = "May";
+            }
+            else if (current_month === "November") {
+                current_month = "June";
+            }
+            else if (current_month === "December") {
+                current_month = "July";
+            }
+            formDataJson = `/formDataJson/${current_month}_${current_year}.json`;
+        }
+        else if (selectedOption === "option6") {
+            if (current_month === "January") {
+                current_year -= 1;
+                current_month = "July";
+            }
+            else if (current_month === "February") {
+                current_year -= 1;
+                current_month = "August";
+            }
+            else if (current_month === "March") {
+                current_year -= 1;
+                current_month = "September";
+            }
+            else if (current_month === "April") {
+                current_year -= 1;
+                current_month = "October";
+            }
+            else if (current_month === "May") {
+                current_year -= 1;
+                current_month = "November";
+            }
+            else if (current_month === "June") {
+                current_year -= 1;
+                current_month = "December";
+            }
+            else if (current_month === "July") {
+                current_month = "January";
+            }
+            else if (current_month === "August") {
+                current_month = "February";
+            }
+            else if (current_month === "September") {
+                current_month = "March";
+            }
+            else if (current_month === "October") {
+                current_month = "April";
+            }
+            else if (current_month === "November") {
+                current_month = "May";
+            }
+            else if (current_month === "December") {
+                current_month = "June";
+            }
+            formDataJson = `/formDataJson/${current_month}_${current_year}.json`;
+        }
+        console.log(formDataJson)
+
+        //The most Lab used
+        let roomCount = {};
+        fetch(formDataJson)
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(student => {
+                    let room = student['Lab Room'];
+                    if (room in roomCount) {
+                        roomCount[room]++;
+                    } else {
+                        roomCount[room] = 1;
+                    }
+                });
+                return roomCount;
+            })
+            .then(roomCount => {
+                let rooms = Object.keys(roomCount);
+                let roomData = Object.values(roomCount);
+                if (rooms.length > 10) {
+                    let otherRooms = rooms.slice(10);
+                    let otherCount = 0;
+                    otherRooms.forEach(room => {
+                        otherCount += roomCount[room];
+                    });
+                    rooms = rooms.slice(0, 10);
+                    rooms.push('Other');
+                    roomData = roomData.slice(0, 10);
+                    roomData.push(otherCount);
+                }
+                const labRoomContext = document.getElementById('RoomChart');
+                if (window.roomChart) {
+                    window.roomChart.destroy();
+                }
+                window.roomChart = new Chart(RoomChart, {
+                    type: 'pie',
+                    data: {
+                        labels: rooms,
+                        datasets: [{
+                            label: 'ใช้ห้องนี้แล้ว',
+                            data: roomData,
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(255, 159, 64, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            title: {
+                                display: true,
+                                color: '#70a5fd',
+                                text: 'ห้อง Lab ที่นักเรียนเข้ามากที่สุด'
+                            },
+                            legend: {
+                                display: true,
+                                labels: {
+                                    fontColor: 'rgb(255, 255, 255)'
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+
+        //The most room use Lab
+        let roomOfClassCount = {};
+        fetch(formDataJson)
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(student => {
+                    let roomOfClass = student['Class'];
+                    if (roomOfClass in roomOfClassCount) {
+                        roomOfClassCount[roomOfClass]++;
+                    } else {
+                        roomOfClassCount[roomOfClass] = 1;
+                    }
+                });
+                return roomOfClassCount;
+            })
+            .then(roomOfClassCount => {
+                let roomOfClasss = Object.keys(roomOfClassCount);
+                let roomOfClassData = Object.values(roomOfClassCount);
+                if (roomOfClasss.length > 10) {
+                    let otherRoomsOfClass = roomOfClasss.slice(10);
+                    let otherCount = 0;
+                    otherRoomsOfClass.forEach(roomOfClass => {
+                        otherCount += roomOfClassCount[roomOfClass];
+                    });
+                    roomOfClasss = roomOfClasss.slice(0, 10);
+                    roomOfClasss.push('Other');
+                    roomOfClassData = roomOfClassData.slice(0, 10);
+                    roomOfClassData.push(otherCount);
+                }
+                const roomOfClassContext = document.getElementById('RoomOfClassChart');
+                if (window.roomOfClassChart) {
+                    window.roomOfClassChart.destroy();
+                }
+                window.roomOfClassChart = new Chart(roomOfClassContext, {
+                    type: 'pie',
+                    data: {
+                        labels: roomOfClasss,
+                        datasets: [{
+                            label: 'ใช้ห้องนี้แล้ว',
+                            data: roomOfClassData,
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(255, 159, 64, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            title: {
+                                display: true,
+                                color: '#70a5fd',
+                                text: 'ห้องที่นักเรียนใช้ Lab มากที่สุด'
+                            },
+                            legend: {
+                                display: true,
+                                labels: {
+                                    fontColor: 'rgb(255, 255, 255)'
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+
+        //M of Class
+        let ClassCount = [0, 0, 0, 0, 0, 0];
+        fetch(formDataJson)
+            .then(response => response.json())
+            .then(data => {
+                let Class = [];
+                data.forEach(student => {
+                    let moreOfClass = parseInt(student['Class'].split('/')[0]);
+                    Class.push(moreOfClass);
+                });
+                Class.forEach(moreOfClass => {
+                    ClassCount[moreOfClass - 1]++;
+                });
+                return ClassCount;
+            })
+            .then(ClassCount => {
+                console.log(ClassCount);
+                const ClassChartContext = document.getElementById('ClassChart');
+                if (window.classChart) {
+                    window.classChart.destroy();
+                }
+                window.classChart = new Chart(ClassChartContext, {
+                    type: 'pie',
+                    data: {
+                        labels: ['ม.1', 'ม.2', 'ม.3', 'ม.4', 'ม.5', 'ม.6'],
+                        datasets: [{
+                            label: 'มีนักเรียนเข้าทั้งหมด',
+                            data: ClassCount,
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(255, 159, 64, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            title: {
+                                display: true,
+                                color: '#70a5fd',
+                                text: 'จำนวนนักเรียนแต่ระดับชั้นที่ใช้ห้อง Computer Lab',
+                            },
+                        },
+                        legend: {
+                            display: true,
+                            labels: {
+                                fontColor: 'rgb(255, 255, 255)'
+                            }
+                        }
+                    }
+                });
+            });
+
+        //The most gender use Lab
+        let genderCount = {};
+        fetch(formDataJson)
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(student => {
+                    let gender = student['Gender'];
+                    if (gender in genderCount) {
+                        genderCount[gender]++;
+                    } else {
+                        genderCount[gender] = 1;
+                    }
+                });
+                return genderCount;
+            })
+            .then(genderCount => {
+                let genders = Object.keys(genderCount);
+                let genderData = Object.values(genderCount);
+                if (genders.length > 10) {
+                    let otherGender = genders.slice(10);
+                    let otherCount = 0;
+                    otherGender.forEach(gender => {
+                        otherCount += genderCount[gender];
+                    });
+                    genders = genders.slice(0, 10);
+                    genders.push('Other');
+                    genderData = genderData.slice(0, 10);
+                    genderData.push(otherCount);
+                }
+                const genderContext = document.getElementById('genderChart');
+                if (window.GenderChart) {
+                    window.GenderChart.destroy();
+                }
+                window.GenderChart = new Chart(genderChart, {
+                    type: 'pie',
+                    data: {
+                        labels: genders,
+                        datasets: [{
+                            label: 'ใช้ห้องนี้แล้ว',
+                            data: genderData,
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(255, 159, 64, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            title: {
+                                display: true,
+                                color: '#70a5fd',
+                                text: 'จำนวนชาย-หญิงที่ใช้ห้อง Lab'
+                            },
+                            legend: {
+                                display: true,
+                                labels: {
+                                    fontColor: 'rgb(255, 255, 255)'
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+    }
+    );
+</script>

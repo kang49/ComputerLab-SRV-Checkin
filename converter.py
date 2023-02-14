@@ -4,6 +4,8 @@ import datetime
 import os
 import openpyxl
 from openpyxl.styles import Border, Side
+import shutil
+import time
 
 
 with open('/volume1/web/ComputerLab-SRV-Checkin/form.json', 'rb') as file:
@@ -83,3 +85,18 @@ for filename in os.listdir(directory):
 
 with open(f'/volume1/web/ComputerLab-SRV-Checkin/formDataJson/{current_month}_{current_year}.json', 'w', encoding='utf-8') as file:
     json.dump(data, file, ensure_ascii=False)
+
+
+#Copy old file
+# Define the source file path and destination directory path
+dec2565 = '/volume1/web/ComputerLab-SRV-Checkin/Old data/December_2565.json'
+jan2566 = '/volume1/web/ComputerLab-SRV-Checkin/Old data/January_2566.json'
+dst_dir = '/volume1/web/ComputerLab-SRV-Checkin/formDataJson/'
+
+# Copy the file to the destination directory
+print('wait 2')
+time.sleep(2)
+shutil.copy2(dec2565, dst_dir)
+print('dec2565')
+shutil.copy2(jan2566, dst_dir)
+print('jan2566')
