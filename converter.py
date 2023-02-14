@@ -52,7 +52,7 @@ with pd.ExcelWriter(file_name, engine='openpyxl') as writer:
         worksheet.cell(row=5, column=i+1).alignment = openpyxl.styles.Alignment(horizontal='center', vertical='center')
         worksheet.cell(row=5, column=i+1).border = Border(left=Side(style='thin'), right=Side(style='thin'),
                                                             top=Side(style='thin'), bottom=Side(style='thin'))
-    worksheet.cell(row=1, column=5, value='แบบบันทึกการขอใช้ห้องปฏิบัติการคอมพิวเตอร์ 123')
+    worksheet.cell(row=1, column=5, value='แบบบันทึกการขอใช้ห้องปฏิบัติการคอมพิวเตอร์')
     worksheet.cell(row=1, column=5).alignment = openpyxl.styles.Alignment(horizontal='center', vertical='center')
     worksheet.cell(row=2, column=5, value=f'ประจำเดือน {current_month_thai} พ.ศ.{current_year}')
     worksheet.cell(row=2, column=5).alignment = openpyxl.styles.Alignment(horizontal='center', vertical='center')
