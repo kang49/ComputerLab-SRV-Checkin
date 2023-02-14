@@ -1,6 +1,10 @@
 import json
 import pandas as pd
 import datetime
+import os
+import openpyxl
+from openpyxl.styles import Border, Side
+
 
 with open('/volume1/web/ComputerLab-SRV-Checkin/form.json', 'rb') as file:
     data = file.read().decode('utf-8')
@@ -10,11 +14,7 @@ with open('/volume1/web/ComputerLab-SRV-Checkin/form.json', 'w', encoding='utf-8
     json.dump(data, file, ensure_ascii=False)
 
 df = pd.DataFrame(data)
-#Save for system
-# df.to_excel("/volume1/web/ComputerLab-SRV-Checkin/form.xlsx", index=False)
 
-import openpyxl
-from openpyxl.styles import Border, Side
 
 # Save for user
 current_month = datetime.datetime.now().strftime("%B")
@@ -62,3 +62,24 @@ with pd.ExcelWriter(file_name, engine='openpyxl') as writer:
     worksheet.column_dimensions[worksheet.cell(row=5, column=5).column_letter].width = 20
 
 
+#Convert xlsx to json for analysis
+
+# Define the directory containing the .xlsx files
+directory = '/volume1/web/ComputerLab-SRV-Checkin/formData'
+
+# Define the directory to save the .json files
+save_directory = '/volume1/web/ComputerLab-SRV-Checkin/formDataJson'
+
+# Loop through all files in the directory
+for filename in os.listdir(directory):
+    # Check if the file is an .xlsx file
+    if filename.endswith('.xlsx'):
+        # Load the Excel file into a pandas DataFrame
+        excel = pd.read_excel(os.path.join(directory, filename))
+
+        # Convert the DataFrame to a JSON file
+        json_filename = filename.replace('.xlsx', '.json')
+        excel.to_json(os.path.join(save_directory, json_filename), orient='records')
+
+with open(f'/volume1/web/ComputerLab-SRV-Checkin/formDataJson/{current_month}_{current_year}.json', 'w', encoding='utf-8') as file:
+    json.dump(data, file, ensure_ascii=False)
