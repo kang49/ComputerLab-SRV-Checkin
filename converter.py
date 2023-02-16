@@ -7,20 +7,25 @@ from openpyxl.styles import Border, Side
 import shutil
 import time
 
+#Time
+current_month = datetime.datetime.now().strftime("%B")
+current_year = int(datetime.datetime.now().strftime("%Y")) + 543
+
 
 with open('/volume1/web/ComputerLab-SRV-Checkin/form.json', 'rb') as file:
-    data = file.read().decode('utf-8')
-    data = json.loads(data)
+    formjson = file.read().decode('utf-8')
+    formjson = json.loads(formjson)
 
 with open('/volume1/web/ComputerLab-SRV-Checkin/form.json', 'w', encoding='utf-8') as file:
-    json.dump(data, file, ensure_ascii=False)
+    json.dump(formjson, file, ensure_ascii=False)
 
-df = pd.DataFrame(data)
+df = pd.DataFrame(formjson)
+# UTF-8 Decode
+with open(f'/volume1/web/ComputerLab-SRV-Checkin/formDataJson/{current_month}_{current_year}.json', 'w', encoding='utf-8') as file:
+    json.dump(formjson, file, ensure_ascii=False)
 
 
 # Save for user
-current_month = datetime.datetime.now().strftime("%B")
-current_year = int(datetime.datetime.now().strftime("%Y")) + 543
 
 month_thai = {
 "January": "มกราคม",
@@ -62,41 +67,3 @@ with pd.ExcelWriter(file_name, engine='openpyxl') as writer:
     worksheet.row_dimensions[5].height = 30
     worksheet.column_dimensions[worksheet.cell(row=5, column=4).column_letter].width = 20
     worksheet.column_dimensions[worksheet.cell(row=5, column=5).column_letter].width = 20
-
-
-#Convert xlsx to json for analysis
-
-# Define the directory containing the .xlsx files
-directory = '/volume1/web/ComputerLab-SRV-Checkin/formData'
-
-# Define the directory to save the .json files
-save_directory = '/volume1/web/ComputerLab-SRV-Checkin/formDataJson'
-
-# Loop through all files in the directory
-for filename in os.listdir(directory):
-    # Check if the file is an .xlsx file
-    if filename.endswith('.xlsx'):
-        # Load the Excel file into a pandas DataFrame
-        excel = pd.read_excel(os.path.join(directory, filename))
-
-        # Convert the DataFrame to a JSON file
-        json_filename = filename.replace('.xlsx', '.json')
-        excel.to_json(os.path.join(save_directory, json_filename), orient='records')
-
-with open(f'/volume1/web/ComputerLab-SRV-Checkin/formDataJson/{current_month}_{current_year}.json', 'w', encoding='utf-8') as file:
-    json.dump(data, file, ensure_ascii=False)
-
-
-#Copy old file
-# Define the source file path and destination directory path
-dec2565 = '/volume1/web/ComputerLab-SRV-Checkin/Old data/December_2565.json'
-jan2566 = '/volume1/web/ComputerLab-SRV-Checkin/Old data/January_2566.json'
-dst_dir = '/volume1/web/ComputerLab-SRV-Checkin/formDataJson/'
-
-# Copy the file to the destination directory
-print('wait 2')
-time.sleep(2)
-shutil.copy2(dec2565, dst_dir)
-print('dec2565')
-shutil.copy2(jan2566, dst_dir)
-print('jan2566')
