@@ -1,3 +1,9 @@
+<div style="text-align:center;">
+  <a href="https://www.buymeacoffee.com/metakeen"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=metakeen&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" width="200px"/></a>
+</div>
+
+![Profile views](https://visitor-badge.glitch.me/badge?page_id=kang49.ComputerLab-SRV-Checkin)
+
 <h1>SRV Computer Lab Check Project</h1>
 <p>This project is a web-based system for checking in and out of the computer lab in SRV. It is designed to provide an
     efficient and organized way of tracking the usage of the computer lab.</p>
