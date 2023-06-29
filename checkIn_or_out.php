@@ -52,7 +52,7 @@
     $idInForm = "in";
 
     // Check if the student is in form.json
-    for ($no = 0; $no < count($formData); $no++) {
+    for ($no = count($formData) - 1; $no >= 0; $no--) {
         if ($formData[$no]['ID Number'] == $idNumber && $formData[$no]['Out'] == null) {
             // Check if student has checked-in for more than 6 hours
             $currentDate = date('d-m-Y');
@@ -77,13 +77,13 @@
                 $idInForm = "out";
             }
             // Return a response to the JavaScript
-            echo json_encode(array("status" => "success", "idInForm" => $idInForm));
+            echo json_encode(array("status" => "success", "idInForm" => $idInForm, "currentDate" => $day, "inDate" => $inDate));
             exit();
         }
     }
 
     // Return a response to the JavaScript
-    echo json_encode(array("status" => "success", "idInForm" => $idInForm));
+    echo json_encode(array("status" => "success", "idInForm" => $idInForm, "currentDate" => $day, "inDate" => $inDate));
     exit();
 
 ?>
