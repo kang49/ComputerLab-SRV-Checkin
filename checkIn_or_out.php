@@ -77,13 +77,13 @@
                 $idInForm = "out";
             }
             // Return a response to the JavaScript
-            echo json_encode(array("status" => "success", "idInForm" => $idInForm, "currentDate" => $day, "inDate" => $inDate));
+            echo json_encode(array("status" => "success", "idInForm" => $idInForm));
             exit();
         }
     }
 
     // Return a response to the JavaScript
-    echo json_encode(array("status" => "success", "idInForm" => $idInForm, "currentDate" => $day, "inDate" => $inDate));
+    echo json_encode(array("status" => "success", "idInForm" => $idInForm));
     exit();
 
 ?>
