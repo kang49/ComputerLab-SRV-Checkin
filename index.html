@@ -59,7 +59,7 @@
             box-sizing: border-box;
             color: grey;
             cursor: pointer;
-            font-family: Inter,Helvetica,"Apple Color Emoji","Segoe UI Emoji",NotoColorEmoji,"Noto Color Emoji","Segoe UI Symbol","Android Emoji",EmojiSymbols,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans",sans-serif;
+            font-family: Inter, Helvetica, "Apple Color Emoji", "Segoe UI Emoji", NotoColorEmoji, "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", EmojiSymbols, -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", sans-serif;
             font-size: 16px;
             font-weight: 700;
             line-height: 24px;
@@ -80,6 +80,7 @@
                 margin-bottom: 10px;
             }
         }
+
         #credit {
             text-align: center;
             font-size: 12px;
@@ -93,11 +94,12 @@
         <h1>
             <br>
             <br>
-        </h1>        
+        </h1>
         <form id="form" action="index.php" method="post">
             <div class="form-group">
                 <label for="idNumber">รหัสประจำตัวนักเรียน:</label>
-                <input type="text" id="idNumber" oninput="submitToOutCheck(event)" name="idNumber" placeholder="รหัสนักเรียน 5 หลัก*" style="width: 130px;">
+                <input type="text" id="idNumber" oninput="submitToOutCheck(event)" name="idNumber"
+                    placeholder="รหัสนักเรียน 5 หลัก*" style="width: 130px;">
             </div>
             <div class="form-group">
                 <label id="room_label" for="room">ห้อง:</label>
@@ -122,14 +124,17 @@
     </div>
     <div id="credit">
         <h4>
-            © 2023 <a style="color: #FFFFFF;" href="https://github.com/kang49">Kankawee Aramrak M.5/6</a>
+            © 2022 <a style="color: #FFFFFF;" href="https://github.com/kang49">Kankawee Aramrak M.6/6</a>
         </h4>
     </div>
-    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="metakeen" data-description="Support me on Buy me a coffee!" data-message="โดเนทด้วยการซื้อกาแฟสักแก้วให้หน่อยสิ" data-color="#70a5fd" data-position="Right" data-x_margin="18" data-y_margin="18"></script>    
+    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
+        data-id="metakeen" data-description="Support me on Buy me a coffee!"
+        data-message="โดเนทด้วยการซื้อกาแฟสักแก้วให้หน่อยสิ" data-color="#70a5fd" data-position="Right"
+        data-x_margin="18" data-y_margin="18"></script>
 </body>
 <script>
-    var isLocked = false;
-    document.getElementById("submit").addEventListener("click", function() {
+    let isLocked = false;
+    document.getElementById("submit").addEventListener("click", function () {
         if (!isLocked) {
             document.getElementById("room").setAttribute("disabled", true);
             document.getElementById("room").style = "background: lightgrey; color: white; width: 130px; border: 5px solid grey; box-shadow: grey 0 10px 20px -10px;"
@@ -144,11 +149,11 @@
         event.preventDefault();
 
         // Get the input values
-        var idNumber = document.getElementById("idNumber").value;
-        var xhttp = new XMLHttpRequest();
+        const idNumber = document.getElementById("idNumber").value;
+        const xhttp = new XMLHttpRequest();
 
         // Send the ID number and note number to the PHP script
-        var formData = new FormData();
+        const formData = new FormData();
         formData.append("idNumber", idNumber);
         xhttp.open("POST", "checkIn_or_out.php", true);
         xhttp.send(formData);
@@ -157,7 +162,7 @@
             if (this.readyState == 4 && this.status == 200) {
                 // Handle the response from the PHP script
                 try {
-                    var response = JSON.parse(xhttp.responseText);
+                    const response = JSON.parse(xhttp.responseText);
                     console.log(response.idInForm)
                     if (response.idInForm == "out") {
                         document.getElementById("submit").innerHTML = "ลงชื่อออก";
@@ -169,31 +174,32 @@
                     }
                 } catch (e) {
                     console.log("Error: Failed to parse response from PHP script");
+                    console.log(e)
                 }
             }
         }
     }
-    
+
     function submitFunc(event) {
         event.preventDefault();
 
         // Get the input values
-        var idNumber = document.getElementById("idNumber").value;
-        var note = document.getElementById("note").value;
-        var room = document.getElementById("room").value;
-        var xhttp = new XMLHttpRequest();
+        const idNumber = document.getElementById("idNumber").value;
+        const note = document.getElementById("note").value;
+        const room = document.getElementById("room").value;
+        const xhttp = new XMLHttpRequest();
 
         // Check if the required fields have values
         if (!idNumber || !room) {
             document.getElementById("message").innerHTML = "โปรดใส่ข้อมูลให้ครบถ้วน";
-            setTimeout(function(){
+            setTimeout(function () {
                 document.getElementById("message").innerHTML = "";
             }, 5000);
             return;
         }
 
         // Send the ID number and note number to the PHP script
-        var formData = new FormData();
+        const formData = new FormData();
         formData.append("idNumber", idNumber);
         formData.append("note", note);
         formData.append("room", room);
@@ -204,34 +210,46 @@
             if (this.readyState == 4 && this.status == 200) {
                 // Handle the response from the PHP script
                 try {
-                    var response = JSON.parse(xhttp.responseText);
-                    if (response.status == "success") {
-                    document.getElementById("idNumber").value = "";
-                    document.getElementById("note").value = "";
-                    document.getElementById("message").innerHTML = response.noti + " " + response.name;
-                    document.getElementById("img-main").width = "150"
-                    document.getElementById("img-main").src = "cute-anime.gif"
-                    document.getElementById("submit").innerHTML = "ลงชื่อเข้า-ออก";
-                    document.getElementById("submit").style = "background: lightgrey;"
+                    let responseImage = 'cute-anime.gif';
 
-                    setTimeout(function(){
-                        document.getElementById("message").innerHTML = "";
-                        document.getElementById("img-main").width = "0"
-                    }, 5000);
-                }
-                else {
+                    const response = JSON.parse(xhttp.responseText);
+                    if (response.status == "success") {
+                        document.getElementById("idNumber").value = "";
+                        document.getElementById("note").value = "";
+                        document.getElementById("message").innerHTML = response.noti + " " + response.name;
+                        document.getElementById("img-main").width = "150"
+                        document.getElementById("img-main").src = responseImage;
+                        document.getElementById("submit").innerHTML = "ลงชื่อเข้า-ออก";
+                        document.getElementById("submit").style = "background: lightgrey;"
+
+                        setTimeout(function () {
+                            document.getElementById("message").innerHTML = "";
+                            document.getElementById("img-main").width = "0"
+                        }, 5000);
+                    }
+                    else if (response.noti === 'ไม่พบเลขห้องปฏิบัติการ ลองใหม่อีกครั้งคุณ') {
+                        document.getElementById("idNumber").value = "";
+                        document.getElementById("note").value = "";
+                        document.getElementById("message").innerHTML = response.noti + " " + response.name;
+                        document.getElementById("submit").innerHTML = "ลงชื่อเข้า-ออก";
+                        document.getElementById("submit").style = "background: lightgrey;"
+
+                        setTimeout(function () {
+                            document.getElementById("message").innerHTML = "";
+                        }, 5000);
+                    }
+                    else {
                         document.getElementById("message").innerHTML = "รหัสประจำตัวนักเรียนไม่ถูกต้อง";
-                        setTimeout(function(){
+                        setTimeout(function () {
                             document.getElementById("message").innerHTML = "";
                             document.getElementById("img-main").width = "0"
                         }, 5000);
                     }
                 } catch (e) {
+                    console.log(e)
                     document.getElementById("message").innerHTML = "Backend not response, Call Admin";
                 }
             }
         };
     }
 </script>
-
-

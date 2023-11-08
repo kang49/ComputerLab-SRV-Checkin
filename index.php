@@ -1,4 +1,7 @@
 <?php
+    // Disable warnings
+    error_reporting(error_reporting() & ~E_WARNING);
+
     // Get the ID number and on_check value sent by the user
     $idNumber = $_POST['idNumber'];
     $note = $_POST['note'];
@@ -49,20 +52,20 @@
     if ($found == false) {
         // Return a response to the JavaScript
         $status = "failure";
-        echo json_encode(array("status" => $status));
+        echo json_encode(array("status" => $status), JSON_UNESCAPED_UNICODE);
         exit;
     }
     if ($room != "123" && $room != "125" && $room != "126" && $room != "116") {
         // Return a response to the JavaScript
-        $status = "success";
+        $status = "failure";
         $noti = "ไม่พบเลขห้องปฏิบัติการ ลองใหม่อีกครั้งคุณ";
-        echo json_encode(array("status" => $status, "noti" => $noti, "name" => $name));
+        echo json_encode(array("status" => $status, "noti" => $noti, "name" => $name), JSON_UNESCAPED_UNICODE);
         exit;
     }
 
     //Check id number in form
     $idInForm = false;
-    for ($no = 0; $no < count($formData); $no++) {
+    for ($no = count($formData) - 1; $no >= 0; $no--) {
         if ($formData[$no]['ID Number'] == $idNumber && $formData[$no]['Out'] == null) {
             //Long time check
 
@@ -129,8 +132,8 @@
     $jsonForm = json_encode($formData, JSON_UNESCAPED_UNICODE);
 
     // Save the updated JSON data to the file
-    file_put_contents('form.json', $jsonForm);
+    file_put_contents('form.json', $jsonForm, JSON_UNESCAPED_UNICODE);
     
     // Return a response to the JavaScript
-    echo json_encode(array("status" => $status, "name" => $name, "noti" => $noti));
+    echo json_encode(array("status" => $status, "name" => $name, "noti" => $noti), JSON_UNESCAPED_UNICODE);
 ?>

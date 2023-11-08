@@ -46,7 +46,7 @@
 
     // Check if the student was found in Students_data.json
     if (!$found) {
-        echo json_encode(array("status" => "failure", "message" => "Error: Student not found in Students_data.json"));
+        echo json_encode(array("status" => "failure", "message" => "Error: Student not found in Students_data.json"), JSON_UNESCAPED_UNICODE);
         exit();
     }
     $idInForm = "in";
@@ -77,13 +77,13 @@
                 $idInForm = "out";
             }
             // Return a response to the JavaScript
-            echo json_encode(array("status" => "success", "idInForm" => $idInForm));
+            echo json_encode(array("status" => "success", "idInForm" => $idInForm), JSON_UNESCAPED_UNICODE);
             exit();
         }
     }
 
     // Return a response to the JavaScript
-    echo json_encode(array("status" => "success", "idInForm" => $idInForm));
+    echo json_encode(array("status" => "success", "idInForm" => $idInForm), JSON_UNESCAPED_UNICODE);
     exit();
 
 ?>
