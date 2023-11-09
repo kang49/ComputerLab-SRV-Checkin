@@ -84,7 +84,7 @@
                             <h1 id="dotLabel4_Desktop" class="">•</h1>
                         </div>
                         <input
-                            class="relative rounded-[40px] pl-[45px] flex justify-center items-center text-[40px] tracking-[2rem] text-white font-bold h-full w-full  bg-transparent border-[3px] border-l-[#70A5FD] border-r-[#FD70C5] border-y-[#bb8be0] focus:outline-none"
+                            class="relative rounded-[40px] pl-[45px] flex justify-center items-center text-[38px] tracking-[2rem] text-white font-bold h-full w-full  bg-transparent border-[3px] border-l-[#70A5FD] border-r-[#FD70C5] border-y-[#bb8be0] focus:outline-none"
                             type="number" name="idNumber" id="idNumber_Desktop" maxlength="5"
                             oninput="updateDotInput(value), submitToOutCheck(event), limitInputLength(event)">
                     </div>
@@ -108,8 +108,8 @@
                     <div id="submitBox_Desktop"
                         class="transition-all duration-[700ms] bg-white/50 from-[#21B914] to-[#257BCA] p-[3px] rounded-[40px]">
                         <button id="submit_Desktop" type="submit" onclick="submitFunc(event)"
-                            class="w-[150px] lg:w-[200px] lg:py-[20px] max-h-[30px] overflow-hidden space-x-[5px] transition-all duration-[700ms] flex justify-between items-center px-5 p-[3px] rounded-[20px] bg-[#272727] text-white text-[20px] font-bold lg:text-[25px]">
-                            <h4 id="submitText_Desktop">Login</h4>
+                            class="w-[150px] lg:w-[200px] lg:py-[20px] max-h-[30px] space-x-[5px] transition-all duration-[700ms] flex justify-between items-center px-5 p-[3px] rounded-[20px] bg-[#272727] text-white text-[20px] font-bold lg:text-[25px]">
+                            <h4 id="submitText_Desktop" class="whitespace-nowrap overflow-hidden">Login</h4>
                             <i id="submitIcon_Desktop" class="fa fa-arrow-right" aria-hidden="true"></i>
                         </button>
                     </div>
@@ -160,8 +160,8 @@
             <div id="submitBox"
                 class="transition-all duration-[700ms] bg-white/50 from-[#21B914] to-[#257BCA] p-[3px] rounded-[20px]">
                 <button id="submit" type="submit" onclick="submitFunc(event)"
-                    class="w-[150px] max-h-[30px] overflow-hidden space-x-[5px] transition-all duration-[700ms] flex justify-between items-center px-5 p-[3px] rounded-[20px] bg-[#272727] text-white text-[20px] font-bold">
-                    <h4 id="submitText">Login</h4>
+                    class="w-[150px] max-h-[30px] space-x-[5px] transition-all duration-[700ms] flex justify-between items-center px-5 p-[3px] rounded-[20px] bg-[#272727] text-white text-[20px] font-bold">
+                    <h4 id="submitText" class="whitespace-nowrap overflow-hidden">Login</h4>
                     <i id="submitIcon" class="fa fa-arrow-right" aria-hidden="true"></i>
                 </button>
             </div>
