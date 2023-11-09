@@ -5,147 +5,283 @@
 <head>
     <meta charset="UTF-8">
     <title>Computer Lab Check</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href='https://unpkg.com/css.gg@2.0.0/icons/css/menu.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/styles.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <style>
-        body {
-            font-family: 'Itim', sans-serif;
-            background-image: url('logo_computer_lab.png');
-            background-position: center center;
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            color: white;
-        }
-
-        #container {
-            width: 50%;
-            margin: 0 auto;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .form-group {
-            display: inline-block;
-            vertical-align: top;
-            margin-right: 10px;
-        }
-
-        label {
-            text-align: start;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        input {
-            box-shadow: #70a5fd 0 10px 20px -10px;
-            text-align: start;
-            font-size: 18px;
-            font-size: 14px;
-            border-radius: 20px;
-            line-height: 1.5;
-            padding: 0px 10px;
-            transition: box-shadow 100ms ease-in, border 100ms ease-in, background-color 100ms ease-in;
-            border: 5px solid #70a5fd;
-            color: rgb(14, 14, 16);
-            background: #FFFFFF;
-            display: block;
-            height: 33px;
-        }
-
-        button {
-            background: lightgrey;
-            border-radius: 999px;
-            box-shadow: grey 0 10px 20px -10px;
-            box-sizing: border-box;
-            color: grey;
-            cursor: pointer;
-            font-family: Inter, Helvetica, "Apple Color Emoji", "Segoe UI Emoji", NotoColorEmoji, "Noto Color Emoji", "Segoe UI Symbol", "Android Emoji", EmojiSymbols, -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", sans-serif;
-            font-size: 16px;
-            font-weight: 700;
-            line-height: 24px;
-            opacity: 1;
-            outline: 0 solid transparent;
-            padding: 8px 18px;
-            user-select: none;
-            -webkit-user-select: none;
-            touch-action: manipulation;
-            width: fit-content;
-            word-break: break-word;
-            border: 0;
-        }
-
-        @media screen and (max-width: 480px) {
-            .form-group {
-                display: block;
-                margin-bottom: 10px;
-            }
-        }
-
-        #credit {
-            text-align: center;
-            font-size: 12px;
-            color: #FFFFFF;
-        }
-    </style>
 </head>
 
 <body>
-    <div id="container">
-        <h1>
-            <br>
-            <br>
-        </h1>
-        <form id="form" action="index.php" method="post">
-            <div class="form-group">
-                <label for="idNumber">รหัสประจำตัวนักเรียน:</label>
-                <input type="text" id="idNumber" oninput="submitToOutCheck(event)" name="idNumber"
-                    placeholder="รหัสนักเรียน 5 หลัก*" style="width: 130px;">
+    <div class="min-h-screen bg-gradient-to-br from-[#0A0D5B] from-20% via-[#040C34] via-30% to-black to-50% ...">
+        <!--Navbar-->
+        <div class="w-full">
+            <div class="px-4 py-4 flex justify-start items-center space-x-3 text-white text-[1.3rem] font-bold">
+                <img class="w-[2rem]" src="/assets/img/sara-logo.png">
+                <h4>Com Lab</h4>
             </div>
-            <div class="form-group">
-                <label id="room_label" for="room">ห้อง:</label>
-                <input id="room" name="room" placeholder="เลขห้องคอม*" style="width: 130px;">
+        </div>
+        <!--Register flex-->
+        <div class="w-full mt-[150px] pl-5 text-white text-[20px] font-bold">
+            <div class="w-max flex items-center">
+                <h1>Register for LAB</h1>
+                <div class="relative inline-block text-left">
+                    <div class="bg-gradient-to-r from-[#70A5FD] to-[#FD70C5] p-[3px] ml-2 rounded-[40px]">
+                        <div class="flex items-center">
+                            <button onclick="pressDropdown()" class="focus:outline-none">
+                                <div class="bg-[#272727] px-[15px] rounded-[40px]">
+                                    <h4 id="roomNumberLabel" class="text-white text-[12px]">Select</h4>
+                                </div>
+                            </button>
+                        </div>
+                        <div id="dropdownmenu"
+                            class="origin-top-right h-0 transition-all duration-[700ms] overflow-y-auto absolute right-0 mt-2 w-max rounded-md shadow-lg bg-[#272727] border-[0px] border-l-[#70A5FD] border-r-[#FD70C5] border-y-[#bb8be0]">
+                            <!-- Dropdown items -->
+                            <div class="py-1">
+                                <button onclick="keepRoomNumber(123), pressDropdown()" href="#"
+                                    class="px-4 py-2 text-sm text-white flex justify-center">123</button>
+                                <button onclick="keepRoomNumber(125), pressDropdown()"
+                                    class="px-4 py-2 text-sm text-white flex justify-center">125</button>
+                                <button onclick="keepRoomNumber(126), pressDropdown()"
+                                    class="px-4 py-2 text-sm text-white flex justify-center">126</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <br>
-            <div class="form-group">
-                <br>
-                <label for="note">หมายเหตุ:</label>
-                <input id="note" name="note" placeholder="ไม่จำเป็น" style="width: 300px;">
+        </div>
+
+        <!--Std Input Box-->
+        <div id="stdNumberBox" class="mt-[40px] w-full flex justify-center transition-all duration-[700ms]">
+            <div class="h-[100px] w-[270px] flex justify-center items-center ">
+                <div
+                    class="absolute text-white text-end text-[50px] tracking-[25px] w-[250px] flex pl-[40px] items-center h-max">
+                    <h1 id="dotLabel0" class="">•</h1>
+                    <h1 id="dotLabel1" class="">•</h1>
+                    <h1 id="dotLabel2" class="">•</h1>
+                    <h1 id="dotLabel3" class="">•</h1>
+                    <h1 id="dotLabel4" class="">•</h1>
+                </div>
+                <input
+                    class="relative rounded-[20px] pl-[50px] flex justify-center items-center text-[30px] tracking-[1rem] text-white font-bold h-full w-full  bg-transparent border-[3px] border-l-[#70A5FD] border-r-[#FD70C5] border-y-[#bb8be0]"
+                    type="number" name="idNumber" id="idNumber" maxlength="5"
+                    oninput="updateDotInput(value), submitToOutCheck(event), limitInputLength(event)">
             </div>
-            <br>
-            <br>
-            <div style="text-align: center;">
-                <button id="submit" type="submit" onclick="submitFunc(event)">ลงชื่อเข้า-ออก</button>
+        </div>
+        <!--Note Box-->
+        <div class="flex items-center">
+            <div class="text-[25px] text-white pl-5 flex items-center space-x-3 py-5">
+                <button onclick="addNote()" id="addnotecheck" class="fa fa-circle-o"></button>
+                <div>
+                    <h4 class="text-white font-bold text-[16px]">Add Note</h4>
+                </div>
             </div>
-            <p id="message"></p>
-        </form>
+        </div>
+        <div id="notebox" class="w-full justify-center items-start hidden">
+            <textarea id="note" name="note"
+                class="h-max w-[270px] text-[12px] text-white bg-white/20 pl-[10px] rounded-[10px] resize-y"
+                placeholder="Enter note..."></textarea>
+        </div>
+
+        <!--Message Box-->
+        <div id="message"
+            class="hidden w-[60%] h-max bg-[#ca253b] text-white px-4 py-3 rounded-[20px] absolute bottom-5 right-5 shadow-md">
+
+        </div>
+
+        <div class="w-full h-max flex justify-center items-center mt-[50px]">
+            <div id="submitBox"
+                class="transition-all duration-[700ms] bg-white/50 from-[#21B914] to-[#257BCA] p-[3px] rounded-[20px]">
+                <button id="submit" type="submit" onclick="submitFunc(event)"
+                    class="w-[150px] max-h-[30px] overflow-hidden space-x-[5px] transition-all duration-[700ms] flex justify-between items-center px-5 p-[3px] rounded-[20px] bg-[#272727] text-white text-[20px] font-bold">
+                    <h4 id="submitText">Login</h4>
+                    <i id="submitIcon" class="fa fa-arrow-right" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+
+        <!--ใช้งานนานที่สุดวันนี้-->
+        <div class="w-full flex justify-center mt-[300px]">
+            <div class="w-full h-[500px] mx-5 rounded-[20px]  bg-white/20">
+                <div class="flex justify-start items-center text-white text-[20px] font-bold mx-5 mt-5 mb-3">
+                    <h4>ใช้งานนานที่สุดวันนี้ :</h4>
+                </div>
+                <div class="w-full h-[1px] bg-white/50"></div>
+                <div class="w-full px-4 flex justify-between my-5">
+                    <div id="nameLogList" class="text-white">
+                    </div>
+                    <div id="timeLogList" class="text-white">
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div style="text-align: center;">
-        <img id="img-main" src="" width="150">
-    </div>
-    <div id="credit">
-        <h4>
-            © 2022 <a style="color: #FFFFFF;" href="https://github.com/kang49">Kankawee Aramrak M.6/6</a>
-        </h4>
-    </div>
-    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
-        data-id="metakeen" data-description="Support me on Buy me a coffee!"
-        data-message="โดเนทด้วยการซื้อกาแฟสักแก้วให้หน่อยสิ" data-color="#70a5fd" data-position="Right"
-        data-x_margin="18" data-y_margin="18"></script>
+
 </body>
 <script>
-    let isLocked = false;
-    document.getElementById("submit").addEventListener("click", function () {
-        if (!isLocked) {
-            document.getElementById("room").setAttribute("disabled", true);
-            document.getElementById("room").style = "background: lightgrey; color: white; width: 130px; border: 5px solid grey; box-shadow: grey 0 10px 20px -10px;"
-            document.getElementById("room_label").innerHTML = "ห้อง:  (Input locked)";
-            isLocked = true;
+    //global var
+    var stdName;
+    var isUserOut;
+
+
+    //frontend script
+    let labDropdownOpen = false;
+    function pressDropdown() {
+        labDropdownOpen = !labDropdownOpen;
+
+        if (labDropdownOpen) {
+            document.getElementById("dropdownmenu").classList.replace("h-0", "h-[100px]");
+            document.getElementById("dropdownmenu").classList.replace("border-[0px]", "border-[3px]");
+
+            document.getElementById("stdNumberBox").classList.replace("mt-[40px]", "mt-[150px]");
+        } else {
+            document.getElementById("dropdownmenu").classList.replace("h-[100px]", "h-0");
+            document.getElementById("dropdownmenu").classList.replace("border-[3px]", "border-[0px]");
+
+            document.getElementById("stdNumberBox").classList.replace("mt-[150px]", "mt-[40px]");
         }
+    }
+
+    //Keep room number
+    var room;
+    function keepRoomNumber(roomNumber) {
+        room = roomNumber;
+        document.getElementById("roomNumberLabel").innerHTML = `${room}`;
+        console.log(room)
+    }
+
+    //Update Dot in StdNumber Input
+    function updateDotInput(stdInput) {
+        for (let i = 0; i < 5; i++) {
+            if (stdInput[i]) {
+                document.getElementById(`dotLabel${i}`).classList.add('text-transparent')
+            }
+            else {
+                document.getElementById(`dotLabel${i}`).classList.remove('text-transparent')
+            }
+        }
+    }
+
+    //Limit Std Number
+    function limitInputLength(event) {
+        const input = event.target;
+        if (input.value.length > 5) {
+            input.value = input.value.slice(0, 5);
+        }
+    }
+
+    //Add Note Box
+    var isAddNoteCheck = false;
+    function addNote() {
+        isAddNoteCheck = !isAddNoteCheck;
+        if (isAddNoteCheck) {
+            document.getElementById("addnotecheck").classList.replace("fa-circle-o", "fa-check-circle-o")
+            document.getElementById("notebox").classList.replace('hidden', 'flex');
+        } else {
+            document.getElementById("addnotecheck").classList.replace("fa-check-circle-o", "fa-circle-o")
+            document.getElementById("notebox").classList.replace('flex', 'hidden');
+        }
+    }
+
+    //Submit when press enter
+    document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                document.getElementById('submit').click();
+            }
+        });
     });
 
+    // Define an array to hold user data
+    let userLogs = [];
+    let intervalIDArray = [];
+    // Function to Add User Log in List
+    function updateUserLogs(stdName, isLogOut) {
+        let userIndex = userLogs.findIndex(user => user.name === stdName);
+
+        if (userIndex !== -1) {
+            if (isLogOut) {
+                const timeLogList = document.getElementById('timeLogList').getElementsByTagName('h4');
+                timeLogList[userIndex].classList.add('text-red-600');
+
+                clearInterval(intervalIDArray[userIndex]);
+                intervalIDArray[userIndex] = null;
+            } else {
+                // If user is found, update their data
+                const currentUser = userLogs[userIndex];
+                currentUser.time++;
+
+                const timeLogList = document.getElementById('timeLogList').getElementsByTagName('h4');
+                timeLogList[userIndex].textContent = formatTime(currentUser.time);
+                timeLogList[userIndex].classList.remove('text-red-600');
+
+                // Restart the timer for the existing user
+                const timerInterval = setInterval(() => {
+                    currentUser.time++;
+                    timeLogList[userIndex].textContent = formatTime(currentUser.time);
+                }, 1000);
+                intervalIDArray[userIndex] = timerInterval;
+            }
+        } else {
+            // If the user is not found, add a new entry
+            const newUser = {
+                name: stdName,
+                time: 0,
+            };
+
+            userLogs.push(newUser);
+
+            const newNameLog = document.createElement('h4');
+            newNameLog.textContent = newUser.name;
+
+            const newTimeLog = document.createElement('h4');
+            newTimeLog.textContent = formatTime(newUser.time);
+
+            const nameLogList = document.getElementById('nameLogList');
+            const timeLogList = document.getElementById('timeLogList');
+
+            nameLogList.appendChild(newNameLog);
+            timeLogList.appendChild(newTimeLog);
+
+            if (!isLogOut) {
+                const timerInterval = setInterval(() => {
+                    newUser.time++;
+                    newTimeLog.textContent = formatTime(newUser.time);
+                }, 1000);
+                intervalIDArray.push(timerInterval);
+            } else {
+                intervalIDArray.push(null);
+            }
+        }
+    }
+
+    // Function to format time
+    function formatTime(seconds) {
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        const remainingSeconds = seconds % 60;
+        return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+    }
+
+
+
+
+
+
+
+
+
+
+
     function submitToOutCheck(event) {
-        document.getElementById("submit").innerHTML = "ลงชื่อเข้า-ออก";
-        document.getElementById("submit").style = "background: lightgrey;"
+        document.getElementById("submitText").innerHTML = "Login";
+        document.getElementById("submit").classList.replace('w-[300px]', 'w-[150px]')
+        try {
+            document.getElementById("submitBox").classList.replace('bg-gradient-to-r', 'bg-white/50')
+        } catch { }
         event.preventDefault();
 
         // Get the input values
@@ -163,14 +299,23 @@
                 // Handle the response from the PHP script
                 try {
                     const response = JSON.parse(xhttp.responseText);
-                    console.log(response.idInForm)
+                    console.log(response.name, response.idInForm)
+                    stdName = response.name;
                     if (response.idInForm == "out") {
-                        document.getElementById("submit").innerHTML = "ลงชื่อออก";
-                        document.getElementById("submit").style = "background: red; color: white; box-shadow: red 0 10px 20px -10px;"
+                        isUserOut = true;
+                        document.getElementById("submitText").innerHTML = `Logout as ${response.name}`;
+                        document.getElementById("submit").classList.replace('w-[150px]', 'w-[300px]')
+                        document.getElementById("submitBox").classList.replace('bg-white/50', 'bg-gradient-to-r');
+                        document.getElementById("submitBox").classList.replace("from-[#21B914]", "from-[#b91414]");
+                        document.getElementById("submitBox").classList.replace("to-[#257BCA]", "to-[#ca2588]");
                     }
                     if (response.idInForm == "in") {
-                        document.getElementById("submit").innerHTML = "ลงชื่อเข้า";
-                        document.getElementById("submit").style = "background: #70a5fd; color: white; box-shadow: #70a5fd 0 10px 20px -10px;"
+                        isUserOut = false;
+                        document.getElementById("submitText").innerHTML = `Login as ${response.name}`;
+                        document.getElementById("submit").classList.replace('w-[150px]', 'w-[300px]')
+                        document.getElementById("submitBox").classList.replace('bg-white/50', 'bg-gradient-to-r')
+                        document.getElementById("submitBox").classList.replace("from-[#b91414]", "from-[#21B914]");
+                        document.getElementById("submitBox").classList.replace("to-[#ca2588]", "to-[#257BCA]");
                     }
                 } catch (e) {
                     console.log("Error: Failed to parse response from PHP script");
@@ -186,14 +331,18 @@
         // Get the input values
         const idNumber = document.getElementById("idNumber").value;
         const note = document.getElementById("note").value;
-        const room = document.getElementById("room").value;
+        room = room;
         const xhttp = new XMLHttpRequest();
 
         // Check if the required fields have values
         if (!idNumber || !room) {
-            document.getElementById("message").innerHTML = "โปรดใส่ข้อมูลให้ครบถ้วน";
+            messagePopup = document.getElementById("message");
+            messagePopup.innerHTML = 'โปรดกรอกข้อมูลให้ครบถ้วน';
+            messagePopup.classList.replace('hidden', 'block');
+            messagePopup.style.animation = 'slideInFromBottom 0.5s ease';
             setTimeout(function () {
-                document.getElementById("message").innerHTML = "";
+                messagePopup.classList.replace('block', 'hidden');
+                messagePopup.innerHTML = "";
             }, 5000);
             return;
         }
@@ -210,39 +359,85 @@
             if (this.readyState == 4 && this.status == 200) {
                 // Handle the response from the PHP script
                 try {
-                    let responseImage = 'cute-anime.gif';
-
                     const response = JSON.parse(xhttp.responseText);
                     if (response.status == "success") {
                         document.getElementById("idNumber").value = "";
                         document.getElementById("note").value = "";
-                        document.getElementById("message").innerHTML = response.noti + " " + response.name;
-                        document.getElementById("img-main").width = "150"
-                        document.getElementById("img-main").src = responseImage;
-                        document.getElementById("submit").innerHTML = "ลงชื่อเข้า-ออก";
-                        document.getElementById("submit").style = "background: lightgrey;"
+                        for (let i = 0; i < 5; i++) {
+                            document.getElementById(`dotLabel${i}`).classList.remove('text-transparent')
+                        }
+                        if (isAddNoteCheck) {
+                            document.getElementById("addnotecheck").classList.replace("fa-check-circle-o", "fa-circle-o")
+                            document.getElementById("notebox").classList.replace('flex', 'hidden');
+                            isAddNoteCheck = false;
+                        }
+                        //Add to log list
+                        const nameLogList = document.getElementById('nameLogList'); // Select the parent element
+                        var isfoundNameInList = false;
+                        var foundIndex = -1;
 
+                        // Loop through the h4 elements to find the name
+                        for (let i = 0; i < nameLogList.children.length; i++) {
+                            if (nameLogList.children[i].textContent === stdName) {
+                                isfoundNameInList = true;
+                                foundIndex = i;
+                                break; // Once found, exit the loop
+                            }
+                        }
+
+                        if (isfoundNameInList) {
+                            if (isUserOut == false) {
+                                updateUserLogs(stdName, false);
+                            }
+                            else {
+                                updateUserLogs(stdName, true);
+                            }
+                        } else {
+                            updateUserLogs(stdName, false);
+                        }
+
+
+                        //Animation
+                        document.getElementById("submitText").innerHTML = "Success";
+                        document.getElementById('submitIcon').classList.replace('fa-arrow-right', 'fa-check')
+                        document.getElementById("submit").classList.replace('w-[300px]', 'w-[150px]')
+                        document.getElementById("submitBox").classList.replace('bg-gradient-to-r', 'bg-green-600')
                         setTimeout(function () {
-                            document.getElementById("message").innerHTML = "";
-                            document.getElementById("img-main").width = "0"
-                        }, 5000);
+                            document.getElementById("submitText").innerHTML = "Login";
+                            document.getElementById('submitIcon').classList.replace('fa-check', 'fa-arrow-right')
+                            document.getElementById("submitBox").classList.replace('bg-green-600', 'bg-white/50')
+                        }, 2000);
                     }
                     else if (response.noti === 'ไม่พบเลขห้องปฏิบัติการ ลองใหม่อีกครั้งคุณ') {
                         document.getElementById("idNumber").value = "";
                         document.getElementById("note").value = "";
-                        document.getElementById("message").innerHTML = response.noti + " " + response.name;
-                        document.getElementById("submit").innerHTML = "ลงชื่อเข้า-ออก";
-                        document.getElementById("submit").style = "background: lightgrey;"
-
+                        for (let i = 0; i < 5; i++) {
+                            document.getElementById(`dotLabel${i}`).classList.remove('text-transparent')
+                        }
+                        if (isAddNoteCheck) {
+                            document.getElementById("addnotecheck").classList.replace("fa-check-circle-o", "fa-circle-o")
+                            document.getElementById("notebox").classList.replace('flex', 'hidden');
+                            isAddNoteCheck = false;
+                        }
+                        messagePopup = document.getElementById("message");
+                        messagePopup.innerHTML = response.noti + " " + response.name;
+                        messagePopup.classList.replace('hidden', 'block');
+                        messagePopup.style.animation = 'slideInFromBottom 0.5s ease';
                         setTimeout(function () {
-                            document.getElementById("message").innerHTML = "";
+                            messagePopup.classList.replace('block', 'hidden');
+                            messagePopup.innerHTML = "";
                         }, 5000);
+                        document.getElementById("submitText").innerHTML = "Login";
+                        document.getElementById("submitBox").classList.replace('bg-gradient-to-r', 'bg-white/50')
                     }
                     else {
-                        document.getElementById("message").innerHTML = "รหัสประจำตัวนักเรียนไม่ถูกต้อง";
+                        messagePopup = document.getElementById("message");
+                        messagePopup.innerHTML = 'เลขประจำตัวไม่ถูกต้อง';
+                        messagePopup.classList.replace('hidden', 'block');
+                        messagePopup.style.animation = 'slideInFromBottom 0.5s ease';
                         setTimeout(function () {
-                            document.getElementById("message").innerHTML = "";
-                            document.getElementById("img-main").width = "0"
+                            messagePopup.classList.replace('block', 'hidden');
+                            messagePopup.innerHTML = "";
                         }, 5000);
                     }
                 } catch (e) {
