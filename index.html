@@ -16,24 +16,43 @@
 </head>
 
 <body>
-    <div class="min-h-screen bg-gradient-to-br from-[#0A0D5B] from-20% via-[#040C34] via-30% to-black to-50% ...">
+    <div
+        class="min-h-screen min-w-screen bg-gradient-to-br from-[#0A0D5B] from-20% via-[#040C34] via-30% to-black to-50% ...">
         <!--Navbar-->
         <div class="w-full">
-            <div class="px-4 py-4 flex justify-start items-center space-x-3 text-white text-[1.3rem] font-bold">
-                <img class="w-[2rem]" src="/assets/img/sara-logo.png">
-                <h4>Com Lab</h4>
+            <div
+                class="px-4 py-4 flex justify-start items-center space-x-3 text-white text-[1.3rem] font-bold lg:text-[1.5rem]">
+                <img class="w-[2rem] lg:w-[2.5rem]" src="/assets/img/sara-logo.png">
+                <h4>Computer Lab</h4>
             </div>
         </div>
         <!--Register flex-->
-        <div class="w-full mt-[150px] pl-5 text-white text-[20px] font-bold">
-            <div class="w-max flex items-center">
-                <h1>Register for LAB</h1>
+        <div class="w-full mt-[150px] pl-5 text-white text-[20px] font-bold lg:mt-[50px] lg:flex lg:pl-0">
+            <!--Students Log Desktop-->
+            <div class="w-[50vw] justify-center pb-[50px] hidden lg:flex lg:pb-0">
+                <div class="w-full h-[450px] overflow-y-auto mx-[60px] rounded-[20px]  bg-white/20">
+                    <div
+                        class="flex justify-start items-center text-white text-[20px] font-bold mx-5 mt-5 mb-3 lg:text-[30px]">
+                        <h4>Students Log :</h4>
+                    </div>
+                    <div class="w-full h-[1px] bg-white/50"></div>
+                    <div class="w-full px-4 flex justify-between my-5">
+                        <div id="nameLogList_Desktop" class="text-white">
+                        </div>
+                        <div id="timeLogList_Desktop" class="text-white">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="w-[50vw] flex items-center lg:items-start">
+                <h1 class="lg:text-[40px]">Register for LAB</h1>
                 <div class="relative inline-block text-left">
-                    <div class="bg-gradient-to-r from-[#70A5FD] to-[#FD70C5] p-[3px] ml-2 rounded-[40px]">
+                    <div
+                        class="bg-gradient-to-r from-[#70A5FD] to-[#FD70C5] p-[3px] ml-2 rounded-[40px] lg:ml-7 lg:mt-[10px]">
                         <div class="flex items-center">
                             <button onclick="pressDropdown()" class="focus:outline-none">
                                 <div class="bg-[#272727] px-[15px] rounded-[40px]">
-                                    <h4 id="roomNumberLabel" class="text-white text-[12px]">Select</h4>
+                                    <h4 id="roomNumberLabel" class="text-white text-[12px] lg:text-[20px]">Select</h4>
                                 </div>
                             </button>
                         </div>
@@ -52,10 +71,54 @@
                     </div>
                 </div>
             </div>
+            <div class="absolute pl-[450px] mt-[150px] w-full bg-blue-800">
+                <!--Std Input Box Desktop-->
+                <div id="stdNumberBox_Desktop" class="justify-center transition-all duration-[700ms] hidden lg:flex">
+                    <div class="h-[130px] w-[350px] flex justify-center items-center ">
+                        <div
+                            class="absolute text-white text-end text-[50px] tracking-[40px] w-[250px] flex pl-[15px] items-center h-max">
+                            <h1 id="dotLabel0_Desktop" class="">•</h1>
+                            <h1 id="dotLabel1_Desktop" class="">•</h1>
+                            <h1 id="dotLabel2_Desktop" class="">•</h1>
+                            <h1 id="dotLabel3_Desktop" class="">•</h1>
+                            <h1 id="dotLabel4_Desktop" class="">•</h1>
+                        </div>
+                        <input
+                            class="relative rounded-[40px] pl-[45px] flex justify-center items-center text-[40px] tracking-[2rem] text-white font-bold h-full w-full  bg-transparent border-[3px] border-l-[#70A5FD] border-r-[#FD70C5] border-y-[#bb8be0]"
+                            type="number" name="idNumber" id="idNumber_Desktop" maxlength="5"
+                            oninput="updateDotInput(value), submitToOutCheck(event), limitInputLength(event)">
+                    </div>
+                </div>
+                <!--Note Box Desktop-->
+                <div class="items-center hidden lg:flex bg-slate-400 justify-center">
+                    <div class="text-[25px] text-white mr-[280px] flex items-center space-x-3 py-5">
+                        <button onclick="addNote()" id="addnotecheck_Desktop" class="fa fa-circle-o"></button>
+                        <div>
+                            <h4 class="text-white font-bold text-[23px]">Add Note</h4>
+                        </div>
+                    </div>
+                </div>
+                <div id="notebox_Desktop" class="w-full justify-center items-start hidden">
+                    <textarea id="note_Desktop" name="note"
+                        class="h-max w-[350px] text-[20px] text-white bg-white/20 pl-[10px] rounded-[10px] resize-y"
+                        placeholder="Enter note..."></textarea>
+                </div>
+                <!--Submit Desktop-->
+                <div class="w-full h-max justify-center items-center mt-[50px] hidden lg:flex">
+                    <div id="submitBox_Desktop"
+                        class="transition-all duration-[700ms] bg-white/50 from-[#21B914] to-[#257BCA] p-[3px] rounded-[20px]">
+                        <button id="submit_Desktop" type="submit" onclick="submitFunc(event)"
+                            class="w-[150px] lg:w-[200px] lg:py-[20px] max-h-[30px] overflow-hidden space-x-[5px] transition-all duration-[700ms] flex justify-between items-center px-5 p-[3px] rounded-[20px] bg-[#272727] text-white text-[20px] font-bold lg:text-[30px]">
+                            <h4 id="submitText_Desktop">Login</h4>
+                            <i id="submitIcon_Desktop" class="fa fa-arrow-right" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <!--Std Input Box-->
-        <div id="stdNumberBox" class="mt-[40px] w-full flex justify-center transition-all duration-[700ms]">
+        <!--Std Input Box Mobile-->
+        <div id="stdNumberBox" class="mt-[40px] w-full flex justify-center transition-all duration-[700ms] lg:hidden">
             <div class="h-[100px] w-[270px] flex justify-center items-center ">
                 <div
                     class="absolute text-white text-end text-[50px] tracking-[25px] w-[250px] flex pl-[40px] items-center h-max">
@@ -71,8 +134,8 @@
                     oninput="updateDotInput(value), submitToOutCheck(event), limitInputLength(event)">
             </div>
         </div>
-        <!--Note Box-->
-        <div class="flex items-center">
+        <!--Note Box Mobile-->
+        <div class="flex items-center lg:hidden">
             <div class="text-[25px] text-white pl-5 flex items-center space-x-3 py-5">
                 <button onclick="addNote()" id="addnotecheck" class="fa fa-circle-o"></button>
                 <div>
@@ -88,11 +151,12 @@
 
         <!--Message Box-->
         <div id="message"
-            class="hidden w-[60%] h-max bg-[#ca253b] text-white px-4 py-3 rounded-[20px] absolute bottom-5 right-5 shadow-md">
+            class="hidden w-[60%] lg:w-[30%] h-max bg-[#ca253b] text-white text-[15px] lg:text-[20px] px-4 py-3 rounded-[20px] absolute bottom-5 right-5 shadow-md">
 
         </div>
 
-        <div class="w-full h-max flex justify-center items-center mt-[50px]">
+        <!--Submit Mobile-->
+        <div class="w-full h-max flex justify-center items-center mt-[50px] lg:hidden">
             <div id="submitBox"
                 class="transition-all duration-[700ms] bg-white/50 from-[#21B914] to-[#257BCA] p-[3px] rounded-[20px]">
                 <button id="submit" type="submit" onclick="submitFunc(event)"
@@ -103,11 +167,11 @@
             </div>
         </div>
 
-        <!--ใช้งานนานที่สุดวันนี้-->
-        <div class="w-full flex justify-center mt-[300px] pb-[50px]">
-            <div class="w-full max-h-[500px] h-max min-h-[150px] mx-5 rounded-[20px]  bg-white/20">
+        <!--Students Log Mobile-->
+        <div class="w-full flex justify-center mt-[300px] pb-[50px] lg:hidden">
+            <div class="w-full overflow-y-auto max-h-[500px] h-max min-h-[150px] mx-5 rounded-[20px]  bg-white/20">
                 <div class="flex justify-start items-center text-white text-[20px] font-bold mx-5 mt-5 mb-3">
-                    <h4>ใช้งานนานที่สุดวันนี้ :</h4>
+                    <h4>Students Log :</h4>
                 </div>
                 <div class="w-full h-[1px] bg-white/50"></div>
                 <div class="w-full px-4 flex justify-between my-5">
@@ -118,20 +182,56 @@
                 </div>
             </div>
         </div>
-        <footer class="bg-[#191919] min-h-[100px] lg:min-h-[150px] lg:grid lg:grid-cols-3 lg:gap-0.5">
-            <div></div> <!-- col1 -->
-            <div>
-                <center class="py-[30px] lg:py-[50px]">
-                    <h4 class="text-white font-bold text-[10px] lg:text-[15px]">&copy; KanG49 Copyright 2023-2030</h4>
-                    <a href="https://github.com/kang49/" target="_blank" class="text-white text-[10px]  lg:text-[15px]">Developed by Kankawee Aramrak M.6/6</a>
-                </center>
-            </div> <!-- col2 -->
-            <div></div> <!-- col3 -->
-        </footer>
     </div>
+    <footer class="bg-[#191919] min-h-[100px] lg:min-h-[150px] lg:grid lg:grid-cols-3 lg:gap-0.5">
+        <div></div> <!-- col1 -->
+        <div>
+            <center class="py-[30px] lg:py-[50px]">
+                <h4 class="text-white font-bold text-[10px] lg:text-[15px]">&copy; KanG49 Copyright 2023-2030</h4>
+                <a href="https://github.com/kang49/" target="_blank"
+                    class="text-white text-[10px]  lg:text-[15px]">Developed by Kankawee Aramrak M.6/6</a>
+            </center>
+        </div> <!-- col2 -->
+        <div></div> <!-- col3 -->
+    </footer>
 
 </body>
 <script>
+    // Define the media query
+    const mediaQuery = window.matchMedia('(min-width: 1024px)');
+
+    // Check if the media query matches
+    if (mediaQuery.matches) {
+        console.log('1')
+        // If screen width is more than 1024px
+        //Convert element id to handle mobile and desktop
+        var nameLogListEID = 'nameLogList_Desktop'
+        var timeLogListEID = 'timeLogList_Desktop'
+        var stdNumberBoxEID = 'stdNumberBox_Desktop'
+        var idNumberEID = 'idNumber_Desktop'
+        var addnotecheckEID = 'addnotecheck_Desktop'
+        var noteboxEID = 'notebox_Desktop'
+        var noteEID = 'note_Desktop'
+        var submitBoxEID = 'submitBox_Desktop'
+        var submitTextEID = 'submitText_Desktop'
+        var submitIconEID = 'submitIcon_Desktop'
+    } else {
+        console.log('2')
+        // If screen width is less than or equal to 1024px
+        var nameLogListEID = 'nameLogList'
+        var timeLogListEID = 'timeLogList'
+        var stdNumberBoxEID = 'stdNumberBox'
+        var idNumberEID = 'idNumber'
+        var addnotecheckEID = 'addnotecheck'
+        var noteboxEID = 'notebox'
+        var noteEID = 'note'
+        var submitBoxEID = 'submitBox'
+        var submitTextEID = 'submitText'
+        var submitIconEID = 'submitIcon'
+    }
+
+
+
     //global var
     var stdName;
     var isUserOut;
@@ -146,12 +246,12 @@
             document.getElementById("dropdownmenu").classList.replace("h-0", "h-[100px]");
             document.getElementById("dropdownmenu").classList.replace("border-[0px]", "border-[3px]");
 
-            document.getElementById("stdNumberBox").classList.replace("mt-[40px]", "mt-[150px]");
+            document.getElementById(stdNumberBoxEID).classList.replace("mt-[40px]", "mt-[150px]");
         } else {
             document.getElementById("dropdownmenu").classList.replace("h-[100px]", "h-0");
             document.getElementById("dropdownmenu").classList.replace("border-[3px]", "border-[0px]");
 
-            document.getElementById("stdNumberBox").classList.replace("mt-[150px]", "mt-[40px]");
+            document.getElementById(stdNumberBoxEID).classList.replace("mt-[150px]", "mt-[40px]");
         }
     }
 
@@ -168,9 +268,11 @@
         for (let i = 0; i < 5; i++) {
             if (stdInput[i]) {
                 document.getElementById(`dotLabel${i}`).classList.add('text-transparent')
+                document.getElementById(`dotLabel${i}_Desktop`).classList.add('text-transparent')
             }
             else {
                 document.getElementById(`dotLabel${i}`).classList.remove('text-transparent')
+                document.getElementById(`dotLabel${i}_Desktop`).classList.remove('text-transparent')
             }
         }
     }
@@ -188,11 +290,11 @@
     function addNote() {
         isAddNoteCheck = !isAddNoteCheck;
         if (isAddNoteCheck) {
-            document.getElementById("addnotecheck").classList.replace("fa-circle-o", "fa-check-circle-o")
-            document.getElementById("notebox").classList.replace('hidden', 'flex');
+            document.getElementById(addnotecheckEID).classList.replace("fa-circle-o", "fa-check-circle-o")
+            document.getElementById(noteboxEID).classList.replace('hidden', 'flex');
         } else {
-            document.getElementById("addnotecheck").classList.replace("fa-check-circle-o", "fa-circle-o")
-            document.getElementById("notebox").classList.replace('flex', 'hidden');
+            document.getElementById(addnotecheckEID).classList.replace("fa-check-circle-o", "fa-circle-o")
+            document.getElementById(noteboxEID).classList.replace('flex', 'hidden');
         }
     }
 
@@ -214,7 +316,7 @@
 
         if (userIndex !== -1) {
             if (isLogOut) {
-                const timeLogList = document.getElementById('timeLogList').getElementsByTagName('h4');
+                const timeLogList = document.getElementById(timeLogListEID).getElementsByTagName('h4');
                 timeLogList[userIndex].classList.add('text-red-600');
 
                 clearInterval(intervalIDArray[userIndex]);
@@ -224,7 +326,7 @@
                 const currentUser = userLogs[userIndex];
                 currentUser.time++;
 
-                const timeLogList = document.getElementById('timeLogList').getElementsByTagName('h4');
+                const timeLogList = document.getElementById(timeLogListEID).getElementsByTagName('h4');
                 timeLogList[userIndex].textContent = formatTime(currentUser.time);
                 timeLogList[userIndex].classList.remove('text-red-600');
 
@@ -250,8 +352,8 @@
             const newTimeLog = document.createElement('h4');
             newTimeLog.textContent = formatTime(newUser.time);
 
-            const nameLogList = document.getElementById('nameLogList');
-            const timeLogList = document.getElementById('timeLogList');
+            const nameLogList = document.getElementById(nameLogListEID);
+            const timeLogList = document.getElementById(timeLogListEID);
 
             nameLogList.appendChild(newNameLog);
             timeLogList.appendChild(newTimeLog);
@@ -287,15 +389,15 @@
 
 
     function submitToOutCheck(event) {
-        document.getElementById("submitText").innerHTML = "Login";
+        document.getElementById(submitTextEID).innerHTML = "Login";
         document.getElementById("submit").classList.replace('w-[300px]', 'w-[150px]')
         try {
-            document.getElementById("submitBox").classList.replace('bg-gradient-to-r', 'bg-white/50')
+            document.getElementById(submitBoxEID).classList.replace('bg-gradient-to-r', 'bg-white/50')
         } catch { }
         event.preventDefault();
 
         // Get the input values
-        const idNumber = document.getElementById("idNumber").value;
+        const idNumber = document.getElementById(idNumberEID).value;
         const xhttp = new XMLHttpRequest();
 
         // Send the ID number and note number to the PHP script
@@ -313,19 +415,19 @@
                     stdName = response.name;
                     if (response.idInForm == "out") {
                         isUserOut = true;
-                        document.getElementById("submitText").innerHTML = `Logout as ${response.name}`;
+                        document.getElementById(submitTextEID).innerHTML = `Logout as ${response.name}`;
                         document.getElementById("submit").classList.replace('w-[150px]', 'w-[300px]')
-                        document.getElementById("submitBox").classList.replace('bg-white/50', 'bg-gradient-to-r');
-                        document.getElementById("submitBox").classList.replace("from-[#21B914]", "from-[#b91414]");
-                        document.getElementById("submitBox").classList.replace("to-[#257BCA]", "to-[#ca2588]");
+                        document.getElementById(submitBoxEID).classList.replace('bg-white/50', 'bg-gradient-to-r');
+                        document.getElementById(submitBoxEID).classList.replace("from-[#21B914]", "from-[#b91414]");
+                        document.getElementById(submitBoxEID).classList.replace("to-[#257BCA]", "to-[#ca2588]");
                     }
                     if (response.idInForm == "in") {
                         isUserOut = false;
-                        document.getElementById("submitText").innerHTML = `Login as ${response.name}`;
+                        document.getElementById(submitTextEID).innerHTML = `Login as ${response.name}`;
                         document.getElementById("submit").classList.replace('w-[150px]', 'w-[300px]')
-                        document.getElementById("submitBox").classList.replace('bg-white/50', 'bg-gradient-to-r')
-                        document.getElementById("submitBox").classList.replace("from-[#b91414]", "from-[#21B914]");
-                        document.getElementById("submitBox").classList.replace("to-[#ca2588]", "to-[#257BCA]");
+                        document.getElementById(submitBoxEID).classList.replace('bg-white/50', 'bg-gradient-to-r')
+                        document.getElementById(submitBoxEID).classList.replace("from-[#b91414]", "from-[#21B914]");
+                        document.getElementById(submitBoxEID).classList.replace("to-[#ca2588]", "to-[#257BCA]");
                     }
                 } catch (e) {
                     console.log("Error: Failed to parse response from PHP script");
@@ -339,8 +441,8 @@
         event.preventDefault();
 
         // Get the input values
-        const idNumber = document.getElementById("idNumber").value;
-        const note = document.getElementById("note").value;
+        const idNumber = document.getElementById(idNumberEID).value;
+        const note = document.getElementById(noteEID).value;
         room = room;
         const xhttp = new XMLHttpRequest();
 
@@ -371,18 +473,19 @@
                 try {
                     const response = JSON.parse(xhttp.responseText);
                     if (response.status == "success") {
-                        document.getElementById("idNumber").value = "";
-                        document.getElementById("note").value = "";
+                        document.getElementById(idNumberEID).value = "";
+                        document.getElementById(noteEID).value = "";
                         for (let i = 0; i < 5; i++) {
                             document.getElementById(`dotLabel${i}`).classList.remove('text-transparent')
+                            document.getElementById(`dotLabel${i}_Desktop`).classList.remove('text-transparent')
                         }
                         if (isAddNoteCheck) {
-                            document.getElementById("addnotecheck").classList.replace("fa-check-circle-o", "fa-circle-o")
-                            document.getElementById("notebox").classList.replace('flex', 'hidden');
+                            document.getElementById(addnotecheckEID).classList.replace("fa-check-circle-o", "fa-circle-o")
+                            document.getElementById(noteboxEID).classList.replace('flex', 'hidden');
                             isAddNoteCheck = false;
                         }
                         //Add to log list
-                        const nameLogList = document.getElementById('nameLogList'); // Select the parent element
+                        const nameLogList = document.getElementById(nameLogListEID); // Select the parent element
                         var isfoundNameInList = false;
                         var foundIndex = -1;
 
@@ -408,25 +511,26 @@
 
 
                         //Animation
-                        document.getElementById("submitText").innerHTML = "Success";
-                        document.getElementById('submitIcon').classList.replace('fa-arrow-right', 'fa-check')
+                        document.getElementById(submitTextEID).innerHTML = "Success";
+                        document.getElementById(submitIconEID).classList.replace('fa-arrow-right', 'fa-check')
                         document.getElementById("submit").classList.replace('w-[300px]', 'w-[150px]')
-                        document.getElementById("submitBox").classList.replace('bg-gradient-to-r', 'bg-green-600')
+                        document.getElementById(submitBoxEID).classList.replace('bg-gradient-to-r', 'bg-green-600')
                         setTimeout(function () {
-                            document.getElementById("submitText").innerHTML = "Login";
-                            document.getElementById('submitIcon').classList.replace('fa-check', 'fa-arrow-right')
-                            document.getElementById("submitBox").classList.replace('bg-green-600', 'bg-white/50')
+                            document.getElementById(submitTextEID).innerHTML = "Login";
+                            document.getElementById(submitIconEID).classList.replace('fa-check', 'fa-arrow-right')
+                            document.getElementById(submitBoxEID).classList.replace('bg-green-600', 'bg-white/50')
                         }, 2000);
                     }
                     else if (response.noti === 'ไม่พบเลขห้องปฏิบัติการ ลองใหม่อีกครั้งคุณ') {
-                        document.getElementById("idNumber").value = "";
-                        document.getElementById("note").value = "";
+                        document.getElementById(idNumberEID).value = "";
+                        document.getElementById(noteEID).value = "";
                         for (let i = 0; i < 5; i++) {
                             document.getElementById(`dotLabel${i}`).classList.remove('text-transparent')
+                            document.getElementById(`dotLabel${i}_Desktop`).classList.remove('text-transparent')
                         }
                         if (isAddNoteCheck) {
-                            document.getElementById("addnotecheck").classList.replace("fa-check-circle-o", "fa-circle-o")
-                            document.getElementById("notebox").classList.replace('flex', 'hidden');
+                            document.getElementById(addnotecheckEID).classList.replace("fa-check-circle-o", "fa-circle-o")
+                            document.getElementById(noteboxEID).classList.replace('flex', 'hidden');
                             isAddNoteCheck = false;
                         }
                         messagePopup = document.getElementById("message");
@@ -437,8 +541,8 @@
                             messagePopup.classList.replace('block', 'hidden');
                             messagePopup.innerHTML = "";
                         }, 5000);
-                        document.getElementById("submitText").innerHTML = "Login";
-                        document.getElementById("submitBox").classList.replace('bg-gradient-to-r', 'bg-white/50')
+                        document.getElementById(submitTextEID).innerHTML = "Login";
+                        document.getElementById(submitBoxEID).classList.replace('bg-gradient-to-r', 'bg-white/50')
                     }
                     else {
                         messagePopup = document.getElementById("message");
