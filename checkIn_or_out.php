@@ -77,13 +77,13 @@
                 $idInForm = "out";
             }
             // Return a response to the JavaScript
-            echo json_encode(array("status" => "success", "idInForm" => $idInForm), JSON_UNESCAPED_UNICODE);
+            echo json_encode(array("status" => "success", "idInForm" => $idInForm, "name" => $name), JSON_UNESCAPED_UNICODE);
             exit();
         }
     }
 
     // Return a response to the JavaScript
-    echo json_encode(array("status" => "success", "idInForm" => $idInForm), JSON_UNESCAPED_UNICODE);
+    echo json_encode(array("status" => "success", "idInForm" => $idInForm, "name" => $name), JSON_UNESCAPED_UNICODE);
     exit();
 
 ?>
