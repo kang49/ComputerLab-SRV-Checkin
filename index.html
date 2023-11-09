@@ -44,7 +44,7 @@
                     </div>
                 </div>
             </div>
-            <div class="w-[50vw] flex items-center lg:items-start">
+            <div class="w-full lg:w-[50vw] flex items-center lg:items-start lg:pl-[60px]">
                 <h1 class="lg:text-[40px]">Register for LAB</h1>
                 <div class="relative inline-block text-left">
                     <div
@@ -71,7 +71,7 @@
                     </div>
                 </div>
             </div>
-            <div class="absolute pl-[450px] mt-[150px] w-full bg-blue-800">
+            <div class="absolute pl-[550px] mt-[150px] w-full">
                 <!--Std Input Box Desktop-->
                 <div id="stdNumberBox_Desktop" class="justify-center transition-all duration-[700ms] hidden lg:flex">
                     <div class="h-[130px] w-[350px] flex justify-center items-center ">
@@ -84,13 +84,13 @@
                             <h1 id="dotLabel4_Desktop" class="">•</h1>
                         </div>
                         <input
-                            class="relative rounded-[40px] pl-[45px] flex justify-center items-center text-[40px] tracking-[2rem] text-white font-bold h-full w-full  bg-transparent border-[3px] border-l-[#70A5FD] border-r-[#FD70C5] border-y-[#bb8be0]"
+                            class="relative rounded-[40px] pl-[45px] flex justify-center items-center text-[40px] tracking-[2rem] text-white font-bold h-full w-full  bg-transparent border-[3px] border-l-[#70A5FD] border-r-[#FD70C5] border-y-[#bb8be0] focus:outline-none"
                             type="number" name="idNumber" id="idNumber_Desktop" maxlength="5"
                             oninput="updateDotInput(value), submitToOutCheck(event), limitInputLength(event)">
                     </div>
                 </div>
                 <!--Note Box Desktop-->
-                <div class="items-center hidden lg:flex bg-slate-400 justify-center">
+                <div class="items-center hidden lg:flex justify-center">
                     <div class="text-[25px] text-white mr-[280px] flex items-center space-x-3 py-5">
                         <button onclick="addNote()" id="addnotecheck_Desktop" class="fa fa-circle-o"></button>
                         <div>
@@ -100,13 +100,13 @@
                 </div>
                 <div id="notebox_Desktop" class="w-full justify-center items-start hidden">
                     <textarea id="note_Desktop" name="note"
-                        class="h-max w-[350px] text-[20px] text-white bg-white/20 pl-[10px] rounded-[10px] resize-y"
+                        class="h-max w-[350px] text-[20px] text-white bg-white/20 pl-[10px] rounded-[10px] resize-y focus:outline-none"
                         placeholder="Enter note..."></textarea>
                 </div>
                 <!--Submit Desktop-->
                 <div class="w-full h-max justify-center items-center mt-[50px] hidden lg:flex">
                     <div id="submitBox_Desktop"
-                        class="transition-all duration-[700ms] bg-white/50 from-[#21B914] to-[#257BCA] p-[3px] rounded-[20px]">
+                        class="transition-all duration-[700ms] bg-white/50 from-[#21B914] to-[#257BCA] p-[3px] rounded-[40px]">
                         <button id="submit_Desktop" type="submit" onclick="submitFunc(event)"
                             class="w-[150px] lg:w-[200px] lg:py-[20px] max-h-[30px] overflow-hidden space-x-[5px] transition-all duration-[700ms] flex justify-between items-center px-5 p-[3px] rounded-[20px] bg-[#272727] text-white text-[20px] font-bold lg:text-[30px]">
                             <h4 id="submitText_Desktop">Login</h4>
@@ -129,7 +129,7 @@
                     <h1 id="dotLabel4" class="">•</h1>
                 </div>
                 <input
-                    class="relative rounded-[20px] pl-[50px] flex justify-center items-center text-[30px] tracking-[1rem] text-white font-bold h-full w-full  bg-transparent border-[3px] border-l-[#70A5FD] border-r-[#FD70C5] border-y-[#bb8be0]"
+                    class="relative rounded-[20px] pl-[50px] flex justify-center items-center text-[30px] tracking-[1rem] text-white font-bold h-full w-full  bg-transparent border-[3px] border-l-[#70A5FD] border-r-[#FD70C5] border-y-[#bb8be0] focus:outline-none"
                     type="number" name="idNumber" id="idNumber" maxlength="5"
                     oninput="updateDotInput(value), submitToOutCheck(event), limitInputLength(event)">
             </div>
@@ -145,7 +145,7 @@
         </div>
         <div id="notebox" class="w-full justify-center items-start hidden">
             <textarea id="note" name="note"
-                class="h-max w-[270px] text-[12px] text-white bg-white/20 pl-[10px] rounded-[10px] resize-y"
+                class="h-max w-[270px] text-[12px] text-white bg-white/20 pl-[10px] rounded-[10px] resize-y focus:outline-none"
                 placeholder="Enter note..."></textarea>
         </div>
 
@@ -212,6 +212,7 @@
         var addnotecheckEID = 'addnotecheck_Desktop'
         var noteboxEID = 'notebox_Desktop'
         var noteEID = 'note_Desktop'
+        var submitEID = 'submit_Desktop'
         var submitBoxEID = 'submitBox_Desktop'
         var submitTextEID = 'submitText_Desktop'
         var submitIconEID = 'submitIcon_Desktop'
@@ -225,6 +226,7 @@
         var addnotecheckEID = 'addnotecheck'
         var noteboxEID = 'notebox'
         var noteEID = 'note'
+        var submitEID = 'submit'
         var submitBoxEID = 'submitBox'
         var submitTextEID = 'submitText'
         var submitIconEID = 'submitIcon'
@@ -302,7 +304,7 @@
     document.addEventListener('DOMContentLoaded', function () {
         document.addEventListener('keydown', function (event) {
             if (event.key === 'Enter') {
-                document.getElementById('submit').click();
+                document.getElementById(submitEID).click();
             }
         });
     });
@@ -390,7 +392,10 @@
 
     function submitToOutCheck(event) {
         document.getElementById(submitTextEID).innerHTML = "Login";
-        document.getElementById("submit").classList.replace('w-[300px]', 'w-[150px]')
+        try {
+            document.getElementById(submitEID).classList.replace('lg:w-[450px]', 'lg:w-[200px]')
+        } catch { }
+        document.getElementById(submitEID).classList.replace('w-[300px]', 'w-[150px]')
         try {
             document.getElementById(submitBoxEID).classList.replace('bg-gradient-to-r', 'bg-white/50')
         } catch { }
@@ -412,19 +417,31 @@
                 try {
                     const response = JSON.parse(xhttp.responseText);
                     console.log(response.name, response.idInForm)
-                    stdName = response.name;
+                    //Remove prefix
+                    stdName = response.name.replace('นาย', '');
+                    stdName = stdName.replace('นางสาว', '');
+                    stdName = stdName.replace('นาง', '');
+                    stdName = stdName.replace('เด็กชาย', '');
+                    stdName = stdName.replace('เด็กหญิง', '');
+
                     if (response.idInForm == "out") {
                         isUserOut = true;
-                        document.getElementById(submitTextEID).innerHTML = `Logout as ${response.name}`;
-                        document.getElementById("submit").classList.replace('w-[150px]', 'w-[300px]')
+                        document.getElementById(submitTextEID).innerHTML = `Logout as ${stdName}`;
+                        try {
+                            document.getElementById(submitEID).classList.replace('lg:w-[200px]', 'lg:w-[450px]')
+                        } catch { }
+                        document.getElementById(submitEID).classList.replace('w-[150px]', 'w-[300px]')
                         document.getElementById(submitBoxEID).classList.replace('bg-white/50', 'bg-gradient-to-r');
                         document.getElementById(submitBoxEID).classList.replace("from-[#21B914]", "from-[#b91414]");
                         document.getElementById(submitBoxEID).classList.replace("to-[#257BCA]", "to-[#ca2588]");
                     }
                     if (response.idInForm == "in") {
                         isUserOut = false;
-                        document.getElementById(submitTextEID).innerHTML = `Login as ${response.name}`;
-                        document.getElementById("submit").classList.replace('w-[150px]', 'w-[300px]')
+                        document.getElementById(submitTextEID).innerHTML = `Login as ${stdName}`;
+                        try {
+                            document.getElementById(submitEID).classList.replace('lg:w-[200px]', 'lg:w-[450px]')
+                        } catch { }
+                        document.getElementById(submitEID).classList.replace('w-[150px]', 'w-[300px]')
                         document.getElementById(submitBoxEID).classList.replace('bg-white/50', 'bg-gradient-to-r')
                         document.getElementById(submitBoxEID).classList.replace("from-[#b91414]", "from-[#21B914]");
                         document.getElementById(submitBoxEID).classList.replace("to-[#ca2588]", "to-[#257BCA]");
@@ -513,7 +530,10 @@
                         //Animation
                         document.getElementById(submitTextEID).innerHTML = "Success";
                         document.getElementById(submitIconEID).classList.replace('fa-arrow-right', 'fa-check')
-                        document.getElementById("submit").classList.replace('w-[300px]', 'w-[150px]')
+                        try {
+                            document.getElementById(submitEID).classList.replace('lg:w-[450px]', 'lg:w-[200px]')
+                        } catch { }
+                        document.getElementById(submitEID).classList.replace('w-[300px]', 'w-[150px]')
                         document.getElementById(submitBoxEID).classList.replace('bg-gradient-to-r', 'bg-green-600')
                         setTimeout(function () {
                             document.getElementById(submitTextEID).innerHTML = "Login";
